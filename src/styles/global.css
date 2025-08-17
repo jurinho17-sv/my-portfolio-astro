@@ -1,8 +1,15 @@
 html {
-  --at-apply: 'bg-background c-secondary antialiased';
+  background-color: #ffffff !important;
+  color: #6b7280;
+  -webkit-font-smoothing: antialiased;
   scrollbar-width: thin;
-  scrollbar-color: oklch(var(--un-preset-theme-colors-secondary) / 0.25) transparent;
+  scrollbar-color: rgba(107, 114, 128, 0.25) transparent;
   scrollbar-gutter: stable;
+}
+
+html.dark {
+  background-color: #111827 !important;
+  color: #d1d5db;
 }
 
 /* Fix Flash Issue On iOS */

@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import { getPageInfo } from '@/utils/page'
+
+const { currentLang } = getPageInfo(Astro.url.pathname)
+const projects = await getCollection('projects', ({ data }) => {
+  return !data.draft && (data.lang === currentLang || data.lang === '')
+})
+
+// Sort projects by date (newest first) and featured projects first
+const sortedProjects = projects.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1
+  if (!a.data.featured && b.data.featured) return 1
+  return b.data.published.getTime() - a.data.published.getTime()
+})
+
+const siteTitle = 'Ju Ho Kim'
+const siteDescription = 'Portfolio of projects by Ju Ho Kim, UC Berkeley Statistics student'
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <main class="main-container">
+    <!-- Page Header -->
+    <header class="mb-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">
+        Projects
+      </h1>
+      <p class="text-lg text-secondary max-w-2xl mx-auto leading-relaxed">
+        A collection of projects showcasing my journey in software development, 
+        from web applications to mobile apps and algorithmic implementations.
+      </p>
+    </header>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sortedProjects.map((project) => (
+        <article class="project-card group relative bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+          {project.data.featured && (
+            <div class="absolute top-4 right-4 z-10">
+              <span class="bg-[#FDB515] text-[#003262] px-3 py-1 text-sm font-medium rounded-full font-bold">
+                Featured
+              </span>
+            </div>
+          )}
+          
+          {/* Project Image Placeholder */}
+          <div class="aspect-video bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+            <div class="text-4xl text-gray-400 dark:text-gray-500">
+              📁
+            </div>
+          </div>
+
+          <div class="p-6">
+            {/* Project Title */}
+            <h2 class="text-xl font-bold text-primary mb-3 group-hover:text-blue-600 transition-colors">
+              <a href={`/projects/${project.id}/`} class="stretched-link">
+                {project.data.title}
+              </a>
+            </h2>
+
+            {/* Project Description */}
+            <p class="text-secondary text-sm leading-relaxed mb-4 line-clamp-3">
+              {project.data.description}
+            </p>
+
+            {/* Technologies */}
+            {project.data.technologies && project.data.technologies.length > 0 && (
+              <div class="mb-4">
+                <div class="flex flex-wrap gap-2">
+                  {project.data.technologies.slice(0, 3).map((tech) => (
+                    <span class="bg-[#003262]/10 dark:bg-[#1E5A96]/30 text-[#003262] dark:text-[#1E5A96] px-2 py-1 text-xs rounded-md font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                  {project.data.technologies.length > 3 && (
+                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-500 px-2 py-1 text-xs rounded-md">
+                      +{project.data.technologies.length - 3} more
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Project Links */}
+            <div class="flex gap-3 mt-auto">
+              {project.data.github && (
+                <a 
+                  href={project.data.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary transition-colors relative z-10"
+                >
+                  GitHub →
+                </a>
+              )}
+              {project.data.demo && (
+                <a 
+                  href={project.data.demo} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary transition-colors relative z-10"
+                >
+                  Live Demo →
+                </a>
+              )}
+            </div>
+
+            {/* Published Date */}
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <time class="text-xs text-gray-500 dark:text-gray-400">
+                {project.data.published.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long'
+                })}
+              </time>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {/* Empty State */}
+    {sortedProjects.length === 0 && (
+      <div class="text-center py-16">
+        <div class="text-6xl mb-4">🚧</div>
+        <h2 class="text-xl font-medium text-secondary mb-2">No projects found</h2>
+        <p class="text-gray-500">Projects will be displayed here once they're published.</p>
+      </div>
+    )}
+  </main>
+</Layout>
+
+<style>
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.project-card {
+  position: relative;
+}
+
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: '';
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Ensure interactive elements are above the stretched link */
+.project-card a:not(.stretched-link) {
+  position: relative;
+  z-index: 10;
+}
+</style>

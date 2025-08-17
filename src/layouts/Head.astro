@@ -6,13 +6,15 @@ import { ui } from '@/i18n/ui'
 import { getPageInfo } from '@/utils/page'
 
 interface Props {
+  title?: string
+  description?: string
   postTitle?: string
   postDescription?: string
   postSlug?: string
 }
 
 // Props and Language
-const { postTitle, postDescription, postSlug } = Astro.props
+const { title: customTitle, description: customDescription, postTitle, postDescription, postSlug } = Astro.props
 const { currentLang } = getPageInfo(Astro.url.pathname)
 const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 const langCode = currentLang === defaultLocale ? '' : `${currentLang}/`
@@ -32,8 +34,8 @@ const siteSubtitle = i18nTitle ? currentUI.subtitle : subtitle
 const siteDescription = i18nTitle ? currentUI.description : description
 
 // Page Metadata
-const pageTitle = postTitle ? `${postTitle} | ${siteTitle}` : `${siteTitle} - ${siteSubtitle}`
-const pageDescription = postDescription || siteDescription
+const pageTitle = customTitle || (postTitle ? `${postTitle} | ${siteTitle}` : `${siteTitle} - ${siteSubtitle}`)
+const pageDescription = customDescription || postDescription || siteDescription
 const pageImage = postSlug
   ? `${url}/og/${postSlug}.png`
   : apiflashKey

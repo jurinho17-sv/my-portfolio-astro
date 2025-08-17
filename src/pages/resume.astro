@@ -1,0 +1,204 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const siteTitle = 'Ju Ho Kim'
+const siteDescription = 'Resume of Ju Ho Kim, UC Berkeley Statistics student pursuing a career in Silicon Valley tech'
+const resumeGoogleDriveUrl = 'https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/edit?usp=sharing&ouid=113224703806167175560&rtpof=true&sd=true'
+const resumePdfUrl = 'https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/export?format=pdf'
+const resumeEmbedUrl = 'https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/preview?usp=embed_facebook'
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <main class="resume-container">
+    <!-- Fixed Header with Download Button -->
+    <header class="resume-header">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-white">
+            Resume - Ju Ho Kim
+          </h1>
+          <p class="text-sm text-white/80">
+            Statistics @ UC Berkeley
+          </p>
+        </div>
+        
+        <!-- Download Buttons -->
+        <div class="flex gap-3">
+          <a 
+            href={resumeGoogleDriveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="berkeley-button berkeley-button-secondary"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            View Online
+          </a>
+          <a 
+            href={`${resumeGoogleDriveUrl}&export=download`}
+            class="berkeley-button berkeley-button-primary"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download PDF
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Resume Document Viewer -->
+    <section class="resume-viewer">
+      <div class="document-container">
+        <iframe
+          src={resumeEmbedUrl}
+          class="resume-iframe"
+          title="Ju Ho Kim Resume"
+          frameborder="0"
+          style="width: 100%; height: 100%; border: none;"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <footer class="resume-footer">
+      <div class="text-center">
+        <p class="text-white mb-4">
+          Let's connect!
+        </p>
+        <div class="flex gap-4 justify-center">
+          <a 
+            href="/contact/" 
+            class="berkeley-button berkeley-button-primary"
+          >
+            Get In Touch
+          </a>
+          <a 
+            href="/projects/" 
+            class="berkeley-button berkeley-button-secondary"
+          >
+            View Projects
+          </a>
+        </div>
+      </div>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+/* UC Berkeley Branded Button Styles */
+.berkeley-button {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm;
+}
+
+.berkeley-button-primary {
+  @apply bg-[#003262] text-white hover:bg-[#FDB515] hover:text-[#003262] shadow-md hover:shadow-lg;
+}
+
+.berkeley-button-secondary {
+  @apply bg-white text-[#003262] border-2 border-[#003262] hover:bg-[#FDB515] hover:border-[#FDB515] hover:text-[#003262];
+}
+
+/* Resume Container */
+.resume-container {
+  @apply min-h-screen bg-white flex flex-col;
+}
+
+/* Fixed Header */
+.resume-header {
+  @apply sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-4 shadow-sm;
+}
+
+/* Resume Viewer */
+.resume-viewer {
+  @apply flex-1 p-1;
+}
+
+.document-container {
+  @apply max-w-none mx-auto bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200;
+  min-height: calc(100vh - 200px);
+  width: 98%;
+  max-width: calc(100vw - 2rem);
+}
+
+.resume-iframe {
+  @apply w-full border-0;
+  height: calc(100vh - 200px);
+  min-height: 800px;
+}
+
+/* Footer */
+.resume-footer {
+  @apply bg-gray-800 border-t border-gray-600 px-6 py-6;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .resume-container {
+    @apply bg-gray-900;
+  }
+  
+  .resume-header {
+    @apply bg-gray-900 border-gray-700;
+  }
+  
+  .document-container {
+    @apply bg-gray-800 border-gray-700;
+  }
+  
+  .resume-footer {
+    @apply bg-gray-900 border-gray-700;
+  }
+  
+  .berkeley-button-secondary {
+    @apply bg-gray-800 text-white border-[#1E5A96] hover:bg-[#FFD700] hover:border-[#FFD700] hover:text-[#003262];
+  }
+}
+
+/* Large Screen Optimization */
+@media (min-width: 1400px) {
+  .document-container {
+    width: 99%;
+    max-width: calc(100vw - 1rem);
+  }
+}
+
+/* Medium Screen Optimization */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  .document-container {
+    width: 98%;
+    max-width: calc(100vw - 1.5rem);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .resume-header {
+    @apply px-4 py-3;
+  }
+  
+  .resume-header .flex {
+    @apply flex-col gap-3 items-start;
+  }
+  
+  .resume-viewer {
+    @apply p-1;
+  }
+  
+  .document-container {
+    width: 99%;
+    max-width: calc(100vw - 0.5rem);
+  }
+  
+  .resume-iframe {
+    height: calc(100vh - 250px);
+    min-height: 600px;
+  }
+  
+  .berkeley-button {
+    @apply text-xs px-3 py-2;
+  }
+}
+</style>

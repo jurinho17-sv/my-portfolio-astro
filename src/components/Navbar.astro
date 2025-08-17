@@ -2,34 +2,52 @@
 import { ui } from '@/i18n/ui'
 import { getPageInfo } from '@/utils/page'
 
-const { currentLang, isHome, isPost, isTag, isAbout, getLocalizedPath } = getPageInfo(Astro.url.pathname)
+const { currentLang, isHome, isPost, isTag, isAbout, isBlogList, isProjects, isResume, isContact } = getPageInfo(Astro.url.pathname)
 const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 
-const isPostActive = isHome || isPost
+const isBlogActive = isBlogList  // Blog는 블로그 목록 페이지에서만 활성화 (개별 포스트 제외)
 const isTagActive = isTag
 const isAboutActive = isAbout
+const isProjectsActive = isProjects
+const isResumeActive = isResume
+const isContactActive = isContact
 
 function getNavItemClass(isActive: boolean) {
   return isActive
     ? 'highlight-static c-primary font-bold after:bottom-0.7em'
-    : 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)'
+    : 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:c-primary'
 }
 
 const navItems = [
   {
     href: '/',
-    label: currentUI.posts,
-    className: getNavItemClass(isPostActive),
+    label: 'Home',
+    className: getNavItemClass(isHome),
   },
   {
-    href: '/tags/',
-    label: currentUI.tags,
-    className: getNavItemClass(isTagActive),
+    href: '/blog/',
+    label: currentUI.posts,
+    className: getNavItemClass(isBlogActive),
+  },
+  {
+    href: '/projects/',
+    label: currentUI.projects,
+    className: getNavItemClass(isProjectsActive),
   },
   {
     href: '/about/',
     label: currentUI.about,
     className: getNavItemClass(isAboutActive),
+  },
+  {
+    href: '/resume/',
+    label: currentUI.resume,
+    className: getNavItemClass(isResumeActive),
+  },
+  {
+    href: '/contact/',
+    label: currentUI.contact,
+    className: getNavItemClass(isContactActive),
   },
 ]
 ---
@@ -46,7 +64,7 @@ const navItems = [
     {navItems.map(item => (
       <li>
         <a
-          href={getLocalizedPath(item.href)}
+          href={item.href}
           class={item.className}
         >
           {item.label}
