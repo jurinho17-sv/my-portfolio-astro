@@ -1,8 +1,7 @@
 ---
 import walineJS from '@waline/client/full?url'
 import walineCSS from '@waline/client/style?url'
-import { defaultLocale, themeConfig } from '@/config'
-import { walineLocaleMap } from '@/i18n/config'
+import themeConfig from '@/config'
 
 const {
   serverURL = '',
@@ -22,8 +21,6 @@ const {
     emoji,
     search,
     imageUploader,
-    walineLocaleMap,
-    defaultLocale,
     walineJS,
     walineCSS,
   }}
@@ -34,16 +31,11 @@ let walineObserver = null
 async function setupWaline() {
   const { init } = await import(walineJS)
 
-  const lang = Object.keys(walineLocaleMap).find(code =>
-    window.location.pathname.startsWith(`/${code}/`),
-  ) ?? defaultLocale
-  const walineLang = walineLocaleMap[lang]
-
   init({
     el: '#waline',
     serverURL,
-    path: window.location.pathname.replace(/^\/([a-z]{2}(-[a-z]{2})?)\//, '/'), // Share comments on posts in different languages
-    lang: walineLang,
+    path: window.location.pathname,
+    lang: 'en-US',
     emoji,
     dark: 'html.dark',
     requiredMeta: ['nick', 'mail'],

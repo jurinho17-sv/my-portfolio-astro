@@ -1,4 +1,4 @@
-import type { supportedLangs } from '@/i18n/config'
+// Type definitions for the portfolio
 
 type Exclude<T, U> = T extends U ? never : T
 

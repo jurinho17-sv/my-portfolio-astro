@@ -2,7 +2,6 @@
 import type { CollectionEntry } from 'astro:content'
 import PinIcon from '@/assets/icons/pin-icon.svg'
 import PostDate from '@/components/PostDate.astro'
-import { defaultLocale } from '@/config'
 import { getPostDescription } from '@/utils/description'
 import { isHomePage } from '@/utils/page'
 
@@ -12,23 +11,17 @@ type Post = CollectionEntry<'posts'> & {
   }
 }
 
-const { posts, lang, pinned = false } = Astro.props
+const { posts, pinned = false } = Astro.props
 const isHome = isHomePage(Astro.url.pathname)
 
 export interface Props {
   posts: Post[]
-  lang: string
   pinned?: boolean
 }
 
 function getPostPath(post: Post) {
   const slug = post.data.abbrlink || post.id
-
-  if (lang === defaultLocale) {
-    return `/posts/${slug}/`
-  }
-
-  return `/${lang}/posts/${slug}/`
+  return `/posts/${slug}/`
 }
 ---
 
@@ -44,7 +37,7 @@ function getPostPath(post: Post) {
           class="cjk:tracking-0.02em"
           lg={isHome ? 'font-medium text-4.5' : ''}
           href={getPostPath(post)}
-          transition:name={`post-${post.data.abbrlink || post.id}${lang ? `-${lang}` : ''}`}
+          transition:name={`post-${post.data.abbrlink || post.id}`}
           data-disable-theme-transition
         >
           {post.data.title}
@@ -62,11 +55,11 @@ function getPostPath(post: Post) {
       {/* mobile post time */}
       <div
         class="py-0.8 text-3.5 font-time lg:hidden"
-        transition:name={`time-${post.data.abbrlink || post.id}${lang ? `-${lang}` : ''}`}
+        transition:name={`time-${post.data.abbrlink || post.id}`}
         data-disable-theme-transition
       >
         <PostDate
-          date={post.data.published}
+          date={post.data.publishDate}
           minutes={post.remarkPluginFrontmatter.minutes}
         />
       </div>
@@ -74,7 +67,7 @@ function getPostPath(post: Post) {
       {/* desktop post time */}
       <div class="hidden text-3.65 font-time lg:(ml-2.5 inline)">
         <PostDate
-          date={post.data.published}
+          date={post.data.publishDate}
           minutes={post.remarkPluginFrontmatter.minutes}
         />
       </div>

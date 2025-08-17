@@ -1,6 +1,5 @@
 ---
-import { defaultLocale, themeConfig } from '@/config'
-import { giscusLocaleMap } from '@/i18n/config'
+import themeConfig from '@/config'
 
 const {
   repo = '',
@@ -30,8 +29,6 @@ const {
     reactionsEnabled,
     emitMetadata,
     inputPosition,
-    giscusLocaleMap,
-    defaultLocale,
   }}
 >
 function getThemeUrl() {
@@ -47,11 +44,6 @@ function setupGiscus() {
   const giscusContainer = document.getElementById('giscus')
   giscusContainer.innerHTML = ''
 
-  const lang = Object.keys(giscusLocaleMap).find(code =>
-    window.location.pathname.startsWith(`/${code}/`),
-  ) ?? defaultLocale
-  const giscusLang = giscusLocaleMap[lang]
-
   // Set up basic attributes
   const dataAttributes = {
     repo,
@@ -64,7 +56,7 @@ function setupGiscus() {
     emitMetadata,
     inputPosition,
     theme: getThemeUrl(),
-    lang: giscusLang,
+    lang: 'en',
   }
 
   const script = document.createElement('script')

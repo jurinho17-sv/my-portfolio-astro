@@ -1,6 +1,5 @@
 ---
-import { defaultLocale, themeConfig } from '@/config'
-import { getLangFromPath } from '@/i18n/lang'
+import themeConfig from '@/config'
 
 const { author } = themeConfig.site
 const { links: socialLinks, startYear } = themeConfig.footer
@@ -8,13 +7,7 @@ const { links: socialLinks, startYear } = themeConfig.footer
 const currentYear = new Date().getFullYear()
 const year = Number(startYear) === currentYear ? startYear : `${startYear}-${currentYear}`
 
-// i18n RSS Feed Path
-const currentLang = getLangFromPath(Astro.url.pathname)
 const links = socialLinks.map(({ name, url, ...rest }) => {
-  if (name === 'RSS') {
-    return { name, url: currentLang === defaultLocale ? url : `/${currentLang}${url}`, ...rest }
-  }
-
   if (name === 'Email') {
     return { name, url: url.startsWith('mailto:') ? url : `mailto:${url}`, ...rest }
   }

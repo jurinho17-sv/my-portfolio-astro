@@ -1,38 +1,16 @@
 ---
 import PostList from '@/components/PostList.astro'
-import { defaultLocale, moreLocales } from '@/config'
 import Layout from '@/layouts/Layout.astro'
 import { getPinnedPosts, getPostsByYear } from '@/utils/content'
 
 export async function getStaticPaths() {
-  type PathItem = {
-    params: { index: string | undefined }
-    props: { lang: string }
-  }
-
-  const paths: PathItem[] = []
-
-  // Default locale
-  paths.push({
-    params: { index: undefined },
-    props: { lang: defaultLocale },
-  })
-
-  // More locales
-  moreLocales.forEach((lang: string) => {
-    paths.push({
-      params: { index: `${lang}/` },
-      props: { lang },
-    })
-  })
-
-  return paths
+  return [
+    { params: { index: undefined } }
+  ]
 }
 
-const { lang } = Astro.props
-
-const pinnedPosts = await getPinnedPosts(lang)
-const postsByYear = await getPostsByYear(lang)
+const pinnedPosts = await getPinnedPosts()
+const postsByYear = await getPostsByYear()
 ---
 
 <Layout>
@@ -40,7 +18,7 @@ const postsByYear = await getPostsByYear(lang)
   {pinnedPosts.length > 0 && (
     <section class="mb-7.5">
       <div class="uno-decorative-line" />
-      <PostList posts={pinnedPosts} lang={lang} pinned={true} />
+      <PostList posts={pinnedPosts} pinned={true} />
     </section>
   )}
 
@@ -48,7 +26,7 @@ const postsByYear = await getPostsByYear(lang)
   {[...postsByYear.entries()].map(([_year, posts]) => (
     <section class="mb-7.5">
       <div class="uno-decorative-line" />
-      <PostList posts={posts} lang={lang} />
+      <PostList posts={posts} />
     </section>
   ))}
 </Layout>

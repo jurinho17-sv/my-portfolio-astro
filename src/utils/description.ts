@@ -1,6 +1,5 @@
 import type { CollectionEntry } from 'astro:content'
 import MarkdownIt from 'markdown-it'
-import { defaultLocale } from '@/config'
 
 type ExcerptScene = 'list' | 'meta' | 'og' | 'feed'
 
@@ -68,7 +67,7 @@ export function getPostDescription(
   post: CollectionEntry<'posts'>,
   scene: ExcerptScene,
 ): string {
-  const lang = post.data.lang || defaultLocale
+  const lang = 'en' // Default to English
 
   if (post.data.description) {
     // Only truncate for og scene, return full description for other scenes

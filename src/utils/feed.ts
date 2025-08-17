@@ -1,4 +1,4 @@
-import type { APIContext, ImageMetadata } from 'astro'
+import type { ImageMetadata } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
@@ -6,8 +6,7 @@ import { Feed } from 'feed'
 import MarkdownIt from 'markdown-it'
 import { parse } from 'node-html-parser'
 import sanitizeHtml from 'sanitize-html'
-import { defaultLocale, themeConfig } from '@/config'
-import { ui } from '@/i18n/ui'
+import { themeConfig } from '@/config'
 import { memoize } from '@/utils/cache'
 import { getPostDescription } from '@/utils/description'
 
@@ -108,25 +107,23 @@ async function fixRelativeImagePaths(htmlContent: string, baseUrl: string): Prom
  * @param options.lang Optional language code
  * @returns A Feed instance ready for RSS or Atom output
  */
-export async function generateFeed({ lang }: { lang?: string } = {}) {
-  const currentUI = ui[lang as keyof typeof ui] ?? ui[defaultLocale as keyof typeof ui] ?? {}
-  const useI18nTitle = themeConfig.site.i18nTitle
-  const siteURL = lang ? `${url}/${lang}/` : `${url}/`
+export async function generateFeed() {
+  const siteURL = `${url}/`
 
   // Create Feed instance
   const feed = new Feed({
-    title: useI18nTitle ? currentUI.title : title,
-    description: useI18nTitle ? currentUI.description : description,
+    title: title,
+    description: description,
     id: siteURL,
     link: siteURL,
-    language: lang ?? themeConfig.global.locale,
+    language: themeConfig.global.locale,
     copyright: `Copyright © ${new Date().getFullYear()} ${author}`,
     updated: new Date(),
     generator: 'Astro-Theme-Retypeset with Feed for Node.js',
 
     feedLinks: {
-      rss: new URL(lang ? `/${lang}/rss.xml` : '/rss.xml', url).toString(),
-      atom: new URL(lang ? `/${lang}/atom.xml` : '/atom.xml', url).toString(),
+      rss: new URL('/rss.xml', url).toString(),
+      atom: new URL('/atom.xml', url).toString(),
     },
 
     author: {
@@ -135,22 +132,17 @@ export async function generateFeed({ lang }: { lang?: string } = {}) {
     },
   })
 
-  // Filter posts by language and exclude drafts
+  // Filter posts and exclude drafts
   const posts = await getCollection(
     'posts',
     ({ data }: { data: CollectionEntry<'posts'>['data'] }) => {
-      const isNotDraft = !data.draft
-      const isCorrectLang = data.lang === lang
-        || data.lang === ''
-        || (lang === undefined && data.lang === defaultLocale)
-
-      return isNotDraft && isCorrectLang
+      return !data.draft
     },
   )
 
   // Sort posts by published date in descending order and limit to the latest 25
   const recentPosts = [...posts]
-    .sort((a, b) => new Date(b.data.published).getTime() - new Date(a.data.published).getTime())
+    .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
     .slice(0, 25)
 
   // Add posts to feed
@@ -174,9 +166,9 @@ export async function generateFeed({ lang }: { lang?: string } = {}) {
       : ''
 
     // publishDate -> Atom:<published>, RSS:<pubDate>
-    const publishDate = new Date(post.data.published)
+    const publishDate = new Date(post.data.publishDate)
     // updateDate -> Atom:<updated>, RSS has no update tag
-    const updateDate = post.data.updated ? new Date(post.data.updated) : publishDate
+    const updateDate = post.data.updatedDate ? new Date(post.data.updatedDate) : publishDate
 
     feed.addItem({
       title: post.data.title,
@@ -209,10 +201,8 @@ export async function generateFeed({ lang }: { lang?: string } = {}) {
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Generate RSS 2.0 format feed
-export async function generateRSS(context: APIContext) {
-  const feed = await generateFeed({
-    lang: context.params?.lang as string | undefined,
-  })
+export async function generateRSS() {
+  const feed = await generateFeed()
 
   // Add XSLT stylesheet to RSS feed
   let rssXml = feed.rss2()
@@ -229,10 +219,8 @@ export async function generateRSS(context: APIContext) {
 }
 
 // Generate Atom 1.0 format feed
-export async function generateAtom(context: APIContext) {
-  const feed = await generateFeed({
-    lang: context.params?.lang as string | undefined,
-  })
+export async function generateAtom() {
+  const feed = await generateFeed()
 
   // Add XSLT stylesheet to Atom feed
   let atomXml = feed.atom1()

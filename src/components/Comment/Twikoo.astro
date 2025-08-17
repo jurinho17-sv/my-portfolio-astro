@@ -1,8 +1,7 @@
 ---
 import twikooCSS from 'twikoo/dist/twikoo.css?url'
 import twikooPath from 'twikoo/dist/twikoo.nocss.js?url' // Using twikoo.min.js causes CSS loading failure after View Transitions
-import { defaultLocale, themeConfig } from '@/config'
-import { twikooLocaleMap } from '@/i18n/config'
+import themeConfig from '@/config'
 
 const { envId = '' } = themeConfig.comment?.twikoo ?? {}
 ---
@@ -22,25 +21,18 @@ const { envId = '' } = themeConfig.comment?.twikoo ?? {}
   is:inline
   define:vars={{
     envId,
-    twikooLocaleMap,
-    defaultLocale,
     twikooCSS,
   }}
 >
 let twikooObserver = null
 
 function setupTwikoo() {
-  const lang = Object.keys(twikooLocaleMap).find(code =>
-    window.location.pathname.startsWith(`/${code}/`),
-  ) ?? defaultLocale
-  const twikooLang = twikooLocaleMap[lang]
-
   twikoo.init({
     envId,
     el: '#twikoo',
     // region: 'ap-shanghai', // Specify for Tencent Cloud, omit for Vercel
-    path: window.location.pathname.replace(/^\/([a-z]{2}(-[a-z]{2})?)\//, '/'), // Share comments on posts in different languages
-    lang: twikooLang,
+    path: window.location.pathname,
+    lang: 'en',
   })
 }
 
