@@ -1,0 +1,340 @@
+---
+// Admin Dashboard
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout title="Admin Dashboard - Ju Ho Kim">
+  <div id="admin-dashboard"></div>
+</Layout>
+
+<script>
+  import React, { useState, useEffect } from 'react'
+  import { createRoot } from 'react-dom/client'
+  import LoginForm from '@/components/admin/LoginForm'
+
+  interface ContentItem {
+    slug: string
+    data: {
+      title: string
+      description: string
+      published: string
+      draft: boolean
+      featured: boolean
+    }
+    type: 'post' | 'project'
+    editUrl: string
+  }
+
+  interface Stats {
+    totalPosts: number
+    totalProjects: number
+    draftPosts: number
+    draftProjects: number
+    featuredPosts: number
+    featuredProjects: number
+  }
+
+  function AdminDashboard() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [content, setContent] = useState<ContentItem[]>([])
+    const [stats, setStats] = useState<Stats | null>(null)
+    const [filter, setFilter] = useState<'all' | 'posts' | 'projects'>('all')
+
+    useEffect(() => {
+      checkAuthentication()
+    }, [])
+
+    useEffect(() => {
+      if (isAuthenticated) {
+        fetchContent()
+      }
+    }, [isAuthenticated, filter])
+
+    const checkAuthentication = async () => {
+      try {
+        const response = await fetch('/api/admin/auth')
+        const data = await response.json()
+        setIsAuthenticated(data.authenticated)
+      } catch (error) {
+        console.error('Auth check failed:', error)
+        setIsAuthenticated(false)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    const fetchContent = async () => {
+      try {
+        const response = await fetch(`/api/admin/content?type=${filter}`)
+        const data = await response.json()
+        
+        if (data.success) {
+          setContent(data.data)
+          calculateStats(data.data)
+        }
+      } catch (error) {
+        console.error('Failed to fetch content:', error)
+      }
+    }
+
+    const calculateStats = (items: ContentItem[]) => {
+      const posts = items.filter(item => item.type === 'post')
+      const projects = items.filter(item => item.type === 'project')
+
+      setStats({
+        totalPosts: posts.length,
+        totalProjects: projects.length,
+        draftPosts: posts.filter(p => p.data.draft).length,
+        draftProjects: projects.filter(p => p.data.draft).length,
+        featuredPosts: posts.filter(p => p.data.featured).length,
+        featuredProjects: projects.filter(p => p.data.featured).length,
+      })
+    }
+
+    const handleLogin = (token: string) => {
+      setIsAuthenticated(true)
+    }
+
+    const handleLogout = async () => {
+      try {
+        await fetch('/api/admin/auth', { method: 'DELETE' })
+        setIsAuthenticated(false)
+        setContent([])
+        setStats(null)
+      } catch (error) {
+        console.error('Logout failed:', error)
+      }
+    }
+
+    const formatDate = (dateString: string) => {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      })
+    }
+
+    if (isLoading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      )
+    }
+
+    if (!isAuthenticated) {
+      return <LoginForm onLogin={handleLogin} />
+    }
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+                <p className="text-gray-600">Manage your portfolio content</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  View Site
+                </a>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Stats Grid */}
+          {stats && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white rounded-lg shadow p-6">
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-600">Total Posts</p>
+                    <p className="text-2xl font-bold text-gray-900">{stats.totalPosts}</p>
+                  </div>
+                  <div className="text-blue-600">
+                    <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  {stats.draftPosts} drafts, {stats.featuredPosts} featured
+                </p>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-6">
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-600">Total Projects</p>
+                    <p className="text-2xl font-bold text-gray-900">{stats.totalProjects}</p>
+                  </div>
+                  <div className="text-green-600">
+                    <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  {stats.draftProjects} drafts, {stats.featuredProjects} featured
+                </p>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-6">
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-600">Quick Actions</p>
+                    <div className="mt-2 space-y-1">
+                      <a
+                        href="/admin/editor?type=post"
+                        className="block text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        + New Blog Post
+                      </a>
+                      <a
+                        href="/admin/editor?type=project"
+                        className="block text-sm text-green-600 hover:text-green-800"
+                      >
+                        + New Project
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Content Management */}
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-medium text-gray-900">Content Management</h2>
+                
+                {/* Filter Tabs */}
+                <div className="flex space-x-1">
+                  {(['all', 'posts', 'projects'] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setFilter(tab)}
+                      className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                        filter === tab
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="divide-y divide-gray-200">
+              {content.length === 0 ? (
+                <div className="px-6 py-12 text-center">
+                  <p className="text-gray-500">No content found</p>
+                  <div className="mt-4 space-x-4">
+                    <a
+                      href="/admin/editor?type=post"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                    >
+                      Create Blog Post
+                    </a>
+                    <a
+                      href="/admin/editor?type=project"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
+                    >
+                      Create Project
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                content.map((item) => (
+                  <div key={`${item.type}-${item.slug}`} className="px-6 py-4 hover:bg-gray-50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-3">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            item.type === 'post' 
+                              ? 'bg-blue-100 text-blue-800' 
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {item.type}
+                          </span>
+                          {item.data.draft && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                              draft
+                            </span>
+                          )}
+                          {item.data.featured && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                              featured
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-900 truncate mt-1">
+                          {item.data.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 truncate">
+                          {item.data.description}
+                        </p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          Published: {formatDate(item.data.published)}
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <a
+                          href={item.editUrl}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          Edit
+                        </a>
+                        <a
+                          href={item.type === 'post' ? `/blog/${item.slug}/` : `/projects/${item.slug}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-600 hover:text-gray-800 text-sm"
+                        >
+                          View
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // Mount the React app
+  const container = document.getElementById('admin-dashboard')
+  if (container) {
+    const root = createRoot(container)
+    root.render(React.createElement(AdminDashboard))
+  }
+</script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+</style>

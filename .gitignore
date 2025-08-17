@@ -1,26 +1,47 @@
-# build output
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Build outputs
 dist/
-.output/
 .astro/
 
-# dependencies
-node_modules/
+# Environment variables
+.env
+.env.local
+.env.*.local
 
-# logs
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 
-# environment variables
-.env
-.env.production
+# Coverage reports
+coverage/
+*.lcov
 
-# macOS-specific files
-.DS_Store
+# Temporary folders
+tmp/
+temp/
 
-# IDE
-.idea
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
+# Cache
+.cache/
+.parcel-cache/
+.next/
+.nuxt/

@@ -1,89 +1,135 @@
-# Retypeset
+# Ju Ho Kim's Portfolio Website
 
-![Cover Image](assets/images/v1/retypeset-en-desktop.webp)
-![Cover Image](assets/images/v1/retypeset-en-mobile.webp)
+A modern, responsive portfolio website built with Astro and featuring UC Berkeley branding.
 
-[简体中文](assets/docs/README.zh.md)｜[繁体中文](assets/docs/README.zh-tw.md)｜[日本語](assets/docs/README.ja.md)｜[Español](assets/docs/README.es.md)｜[Français](assets/docs/README.fr.md)｜[Русский](assets/docs/README.ru.md)
+## 🌟 Features
 
-Retypeset is a static blog theme based on the [Astro](https://astro.build/) framework. Inspired by [Typography](https://astro-theme-typography.vercel.app/), Retypeset establishes a new visual standard and reimagines the layout of all pages, creating a reading experience reminiscent of paper books, reviving the beauty of typography. Details in every sight, elegance in every space.
+- **Static Site Generation**: Built with Astro for optimal performance
+- **Responsive Design**: Mobile-first approach with dark/light mode support
+- **Content Collections**: Organized blog posts and projects with TypeScript validation
+- **UC Berkeley Branding**: Official colors (Berkeley Blue #003262, California Gold #FDB515)
+- **SEO Optimized**: Meta tags, sitemap, and RSS feeds
+- **Modern Tech Stack**: TypeScript, UnoCSS, and Markdown support
 
-## Demo
+## 🏗️ Project Structure
 
-- [Retypeset](https://retypeset.radishzz.cc/en/)
-- [Retipografía](https://retypeset.radishzz.cc/es/)
-- [Переверстка](https://retypeset.radishzz.cc/ru/)
-- [重新编排](https://retypeset.radishzz.cc/)
-- [重新編排](https://retypeset.radishzz.cc/zh-tw/)
-- [再組版](https://retypeset.radishzz.cc/ja/)
+```
+├── src/
+│   ├── components/         # Reusable UI components
+│   ├── content/           # Content collections (blog, projects)
+│   ├── layouts/           # Page layouts
+│   ├── pages/             # Route pages
+│   ├── styles/            # Global styles
+│   └── config.ts          # Site configuration
+├── public/                # Static assets
+└── astro.config.ts        # Astro configuration
+```
 
-## Features
+## 🚀 Getting Started
 
-- Built with Astro and UnoCSS
-- Support for SEO, Sitemap, OpenGraph, TOC, RSS, MDX and LaTeX
-- i18n support
-- Light / Dark mode
-- Elegant view transitions
-- Rich theme customization
-- Optimized typography
-- Responsive design
-- Comment system
-
-## Performance
-
-<br>
-<p align="center">
-  <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fretypeset.radishzz.cc%2Fen%2F&form_factor=desktop">
-    <img width="710" alt="Retypeset Lighthouse Score" src="assets/images/retypeset-lighthouse-score.svg">
-  <a>
-</p>
-
-## Getting Started
-
-1. [Fork](https://github.com/radishzzz/astro-theme-retypeset/fork) this repository, or use this template to create a new repository.
-2. Run the following commands in your terminal:
-
+1. **Clone the repository**
    ```bash
-   # Clone the repository
-   git clone <repository-url>
+   git clone https://github.com/YOUR_USERNAME/my-portfolio-astro.git
+   cd my-portfolio-astro
+   ```
 
-   # Navigate to the project directory
-   cd <repository-name>
-
-   # Install pnpm globally (if not already installed)
-   npm install -g pnpm
-
-   # Install dependencies
+2. **Install dependencies**
+   ```bash
    pnpm install
+   ```
 
-   # Start the development server
+3. **Start development server**
+   ```bash
    pnpm dev
    ```
 
-3. Refer to the [Theme Guide](https://retypeset.radishzz.cc/en/posts/theme-guide/) to customize your blog and create new posts.
-4. Refer to the [Astro Deployment Guides](https://docs.astro.build/en/guides/deploy/) to deploy your blog to Netlify, Vercel, or other platforms.
+4. **Build for production**
+   ```bash
+   pnpm build
+   ```
 
-&emsp;[![Deploy to Netlify](assets/images/deploy-netlify.svg)](https://app.netlify.com/start) [![Deploy to Vercel](assets/images/deploy-vercel.svg)](https://vercel.com/new)
+## 📝 Content Management
 
-## Updates
+### Adding Blog Posts
 
-Retypeset releases [new features](https://github.com/radishzzz/astro-theme-retypeset/issues/18) from time to time. Simply run `pnpm update-theme` to update the theme. If you encounter merge conflicts, please refer to [this video](https://youtu.be/lz5OuKzvadQ?si=sH_ALNgqxrYqNVQT) for manual resolution.
+Create a new Markdown file in `src/content/posts/`:
 
-## Credits
+```markdown
+---
+title: "Your Post Title"
+description: "Brief description"
+published: 2024-01-01
+tags: ["technology", "web-development"]
+---
 
-- [Typography](https://github.com/moeyua/astro-theme-typography)
-- [Fuwari](https://github.com/saicaca/fuwari)
-- [Redefine](https://github.com/EvanNotFound/hexo-theme-redefine)
-- [AstroPaper](https://github.com/satnaing/astro-paper)
-- [heti](https://github.com/sivan/heti)
-- [EarlySummerSerif](https://github.com/GuiWonder/EarlySummerSerif)
+Your post content here...
+```
 
-## Star History
+### Adding Projects
 
-<p align="center">
-<a href="https://star-history.com/#radishzzz/astro-theme-retypeset&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
-  </picture>
-</p>
+Create a new Markdown file in `src/content/projects/`:
+
+```markdown
+---
+title: "Project Name"
+description: "Project description"
+published: 2024-01-01
+technologies: ["React", "TypeScript", "Node.js"]
+github: "https://github.com/username/repo"
+demo: "https://project-demo.com"
+featured: true
+---
+
+Project details and documentation...
+```
+
+## 🎨 Customization
+
+### Site Configuration
+
+Edit `src/config.ts` to update:
+- Site title and description
+- Author information
+- Social media links
+- Theme colors
+
+### Styling
+
+The site uses UnoCSS for styling. Key files:
+- `src/styles/global.css` - Global styles
+- `uno.config.ts` - UnoCSS configuration
+
+## 🚀 Deployment
+
+This site is configured for easy deployment on:
+
+- **Vercel** (Recommended)
+- **Netlify**
+- **GitHub Pages**
+
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Vercel will automatically build and deploy
+
+### Environment Variables
+
+For production deployment, set these environment variables:
+- `SITE_URL`: Your production domain
+- `GOOGLE_ANALYTICS_ID`: (Optional) Google Analytics tracking ID
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👤 Author
+
+**Ju Ho Kim**
+- GitHub: [@jurinho17-sv](https://github.com/jurinho17-sv)
+- LinkedIn: [Justin Kim](https://www.linkedin.com/in/justinkim-sv/)
+- Email: juho_kim@berkeley.edu
+
+---
+
+Built with ❤️ at UC Berkeley
