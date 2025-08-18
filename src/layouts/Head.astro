@@ -27,7 +27,7 @@ const siteSubtitle = subtitle
 const siteDescription = description
 
 // Page Metadata
-const pageTitle = postTitle ? `${postTitle} | ${siteTitle}` : `${siteTitle} - ${siteSubtitle}`
+const pageTitle = postTitle ? `${postTitle} | ${siteTitle}` : siteTitle
 const pageDescription = postDescription || siteDescription
 const pageImage = postSlug
   ? `${url}/og/${postSlug}.png`

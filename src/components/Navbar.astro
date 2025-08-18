@@ -16,11 +16,23 @@ function getNavItemClass(isActive: boolean) {
     : 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)'
 }
 
+const isResume = pathname.includes('/resume')
+
 const navItems = [
   {
     href: '/',
-    label: 'Posts',
+    label: 'Blog',
     className: getNavItemClass(isPostActive),
+  },
+  {
+    href: '/projects/',
+    label: 'Projects',
+    className: getNavItemClass(false), // Will implement project active state later
+  },
+  {
+    href: '/resume/',
+    label: 'Resume',
+    className: getNavItemClass(isResume),
   },
   {
     href: '/tags/',

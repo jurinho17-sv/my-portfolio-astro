@@ -15,7 +15,7 @@ const links = socialLinks.map(({ name, url, ...rest }) => {
   return { name, url, ...rest }
 })
 
-const footerLinkClass = 'highlight-hover py-0.8 transition-colors after:bottom-0.35em hover:c-primary'
+const footerLinkClass = 'highlight-hover py-0.8 transition-colors after:bottom-0.35em berkeley-accent hover:text-berkeley-blue'
 ---
 
 <footer
@@ -32,9 +32,5 @@ const footerLinkClass = 'highlight-hover py-0.8 transition-colors after:bottom-0
 
   <p>
     © {year} {author}
-  </p>
-
-  <p>
-    Powered by <a class={footerLinkClass} href="https://astro.build/" target="_blank" rel="noopener noreferrer">Astro</a> and <a class={footerLinkClass} href="https://github.com/radishzzz/astro-theme-retypeset" target="_blank" rel="noopener noreferrer">Retypeset</a>
   </p>
 </footer>

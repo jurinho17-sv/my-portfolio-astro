@@ -1,0 +1,100 @@
+---
+import { formatDate } from '@/utils/date'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  project: CollectionEntry<'projects'>
+}
+
+const { project } = Astro.props
+const { data } = project
+---
+
+<article class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow">
+  {data.featured && (
+    <div class="mb-3">
+      <span class="text-2.5 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded font-semibold">
+        Featured
+      </span>
+    </div>
+  )}
+
+  <h3 class="mb-3 text-5 font-bold project-title transition-colors">
+    <a href={`/projects/${project.id}/`}>
+      {data.title}
+    </a>
+  </h3>
+  
+  <p class="mb-4 text-3.5 c-secondary leading-relaxed line-clamp-3">
+    {data.description}
+  </p>
+
+  <div class="mb-4 text-3 c-secondary time-font">
+    {formatDate(data.startDate, 'MMM YYYY')}
+    {data.endDate ? ` - ${formatDate(data.endDate, 'MMM YYYY')}` : ' - Present'}
+  </div>
+
+  {data.technologies && data.technologies.length > 0 && (
+    <div class="mb-4">
+      <div class="flex flex-wrap gap-2">
+        {data.technologies.slice(0, 3).map((tech) => (
+          <span class="text-2.5 bg-gray-100 dark:bg-gray-800 c-primary px-2 py-1 rounded">
+            {tech}
+          </span>
+        ))}
+        {data.technologies.length > 3 && (
+          <span class="text-2.5 c-secondary">
+            +{data.technologies.length - 3} more
+          </span>
+        )}
+      </div>
+    </div>
+  )}
+
+  <div class="flex gap-3 text-3 font-semibold">
+    <a 
+      href={`/projects/${project.id}/`}
+      class="project-link transition-colors"
+    >
+      Read More →
+    </a>
+    {data.githubUrl && (
+      <a 
+        href={data.githubUrl} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="c-secondary hover:c-primary transition-colors"
+      >
+        GitHub
+      </a>
+    )}
+    {data.liveUrl && (
+      <a 
+        href={data.liveUrl} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="c-secondary hover:c-primary transition-colors"
+      >
+        Live Demo
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .project-title {
+    color: #003262; /* Berkeley Blue */
+  }
+  
+  .project-title:hover {
+    color: #1a4b73; /* Berkeley Blue Light */
+  }
+  
+  .project-link {
+    color: #003262; /* Berkeley Blue */
+  }
+  
+  .project-link:hover {
+    color: #1a4b73; /* Berkeley Blue Light */
+  }
+</style>

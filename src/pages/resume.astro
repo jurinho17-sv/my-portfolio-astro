@@ -1,0 +1,117 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const title = 'Resume'
+const description = 'View and download Ju Ho Kim\'s professional resume'
+---
+
+<Layout postTitle={title} postDescription={description}>
+  <main class="uno-layout-container">
+    <div class="mb-8">
+      <h1 class="mb-4 text-8 font-bold c-primary lg:text-9">Resume</h1>
+      <p class="text-3.5 c-secondary lg:text-4">
+        View my professional experience and qualifications. You can download a PDF copy using the button below.
+      </p>
+    </div>
+
+    <!-- Download Button -->
+    <div class="mb-8 text-center">
+      <a 
+        href="https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/export?format=pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-berkeley-blue text-white font-semibold rounded-lg hover:bg-berkeley-blue-dark transition-colors shadow-lg hover:shadow-xl"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Download Resume (PDF)
+      </a>
+    </div>
+
+    <!-- Resume Viewer -->
+    <div class="resume-container">
+      <!-- Desktop View -->
+      <div class="hidden lg:block">
+        <iframe 
+          src="https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/preview?usp=sharing"
+          class="w-full h-[800px] border border-gray-200 rounded-lg shadow-lg"
+          title="Ju Ho Kim Resume"
+        ></iframe>
+      </div>
+
+      <!-- Mobile View -->
+      <div class="lg:hidden">
+        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <h3 class="text-lg font-semibold mb-2 c-primary">Mobile View</h3>
+          <p class="text-3.5 c-secondary mb-4">
+            For the best viewing experience, please use the download button above or view on a desktop device.
+          </p>
+          <a 
+            href="https://docs.google.com/document/d/1zyFlTDXWsF4bPJ9JLQ9-5a2UZvizPA5F/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-berkeley-gold text-berkeley-blue font-semibold rounded hover:bg-berkeley-gold-dark transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+            View in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="mt-8 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+      <h2 class="text-5 font-bold mb-4 c-primary">Quick Summary</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-4 font-semibold mb-2 c-secondary">Education</h3>
+          <p class="text-3.5 c-secondary mb-1">University of California, Berkeley</p>
+          <p class="text-3 c-secondary">Bachelor of Arts in Statistics (CDSS)</p>
+          <p class="text-3 c-secondary">Expected Graduation: June 2027</p>
+        </div>
+        <div>
+          <h3 class="text-4 font-semibold mb-2 c-secondary">Contact Information</h3>
+          <p class="text-3.5 c-secondary mb-1">Email: juho_kim@berkeley.edu</p>
+          <p class="text-3.5 c-secondary mb-1">LinkedIn: linkedin.com/in/justinkim-sv</p>
+          <p class="text-3.5 c-secondary">GitHub: github.com/jurinho17-sv</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .resume-container {
+    @apply min-h-[600px];
+  }
+  
+  .bg-berkeley-blue {
+    background-color: #003262;
+  }
+  
+  .bg-berkeley-blue-dark {
+    background-color: #002449;
+  }
+  
+  .bg-berkeley-gold {
+    background-color: #FDB515;
+  }
+  
+  .bg-berkeley-gold-dark {
+    background-color: #e69d00;
+  }
+  
+  .text-berkeley-blue {
+    color: #003262;
+  }
+  
+  .text-berkeley-gold {
+    color: #FDB515;
+  }
+</style>

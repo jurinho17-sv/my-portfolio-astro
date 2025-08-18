@@ -32,7 +32,7 @@ function getPostPath(post: Post) {
       lg={isHome ? 'mb-10' : ''}
     >
       {/* post title */}
-      <h3 class="inline transition-colors hover:c-primary">
+      <h3 class="inline transition-colors post-title-link">
         <a
           class="cjk:tracking-0.02em"
           lg={isHome ? 'font-medium text-4.5' : ''}
@@ -54,7 +54,7 @@ function getPostPath(post: Post) {
 
       {/* mobile post time */}
       <div
-        class="py-0.8 text-3.5 font-time lg:hidden"
+        class="py-0.8 text-3.5 time-font lg:hidden"
         transition:name={`time-${post.data.abbrlink || post.id}`}
         data-disable-theme-transition
       >
@@ -65,7 +65,7 @@ function getPostPath(post: Post) {
       </div>
 
       {/* desktop post time */}
-      <div class="hidden text-3.65 font-time lg:(ml-2.5 inline)">
+      <div class="hidden text-3.65 time-font lg:(ml-2.5 inline)">
         <PostDate
           date={post.data.publishDate}
           minutes={post.remarkPluginFrontmatter.minutes}
@@ -84,3 +84,13 @@ function getPostPath(post: Post) {
     </li>
   ))}
 </ul>
+
+<style>
+  .post-title-link {
+    color: #003262; /* Berkeley Blue */
+  }
+  
+  .post-title-link:hover {
+    color: #1a4b73; /* Berkeley Blue Light */
+  }
+</style>

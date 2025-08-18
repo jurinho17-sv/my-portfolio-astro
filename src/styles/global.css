@@ -1,3 +1,12 @@
+:root {
+  /* UC Berkeley Brand Colors */
+  --berkeley-blue: #003262;
+  --berkeley-blue-dark: #002449;
+  --berkeley-blue-light: #1a4b73;
+  --berkeley-gold: #FDB515;
+  --berkeley-gold-dark: #e69d00;
+}
+
 html {
   --at-apply: 'bg-background c-secondary antialiased';
   scrollbar-width: thin;
@@ -81,4 +90,55 @@ html.dark .code-copy-button.copy-success {
 .code-copy-button svg,
 .code-copy-button svg path {
   --at-apply: 'pointer-events-none';
+}
+
+/* UC Berkeley Branding >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+.berkeley-blue {
+  color: var(--berkeley-blue);
+}
+.berkeley-gold {
+  color: var(--berkeley-gold);
+}
+.bg-berkeley-blue {
+  background-color: var(--berkeley-blue);
+}
+.bg-berkeley-blue:hover {
+  background-color: var(--berkeley-blue-dark);
+}
+.bg-berkeley-gold {
+  background-color: var(--berkeley-gold);
+}
+.bg-berkeley-gold:hover {
+  background-color: var(--berkeley-gold-dark);
+}
+.border-berkeley-blue {
+  border-color: var(--berkeley-blue);
+}
+.border-berkeley-gold {
+  border-color: var(--berkeley-gold);
+}
+
+/* Enhanced link and button styling with Berkeley colors */
+.berkeley-link {
+  color: var(--berkeley-blue);
+  transition: color 0.2s ease;
+}
+.berkeley-link:hover {
+  color: var(--berkeley-blue-light);
+}
+
+/* Berkeley accent for important elements */
+.berkeley-accent::after {
+  background-color: var(--berkeley-gold);
+}
+
+/* Additional Berkeley color utilities */
+.text-berkeley-blue {
+  color: var(--berkeley-blue);
+}
+.text-berkeley-blue-light {
+  color: var(--berkeley-blue-light);
+}
+.text-berkeley-gold {
+  color: var(--berkeley-gold);
 }

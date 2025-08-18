@@ -1,3 +1,13 @@
+/* Times New Roman for Title */
+.title-font {
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Times New Roman for Date/Time */
+.time-font {
+  font-family: "Times New Roman", Times, serif;
+}
+
 /* Snell Roundhand Static Font */
 @font-face {
   font-family: "Snell-Bold";

@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+
+const allProjects = await getCollection('projects')
+const projects = allProjects
+  .filter(project => !project.data.draft)
+  .sort((a, b) => {
+    // Sort by featured first, then by start date (newest first)
+    if (a.data.featured && !b.data.featured) return -1
+    if (!a.data.featured && b.data.featured) return 1
+    return new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+  })
+
+const title = 'Projects'
+const description = 'A collection of my personal and professional projects'
+---
+
+<Layout postTitle={title} postDescription={description}>
+  <main class="uno-layout-container">
+    <h1 class="mb-8 text-8 font-bold c-primary lg:text-9">Projects</h1>
+    
+    <div class="mb-8">
+      <p class="text-3.5 c-secondary lg:text-4">
+        Here are some of the projects I've worked on. Each project represents a step in my journey of learning and growth.
+      </p>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+
+    {projects.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-4 c-secondary">No projects yet. Check back soon!</p>
+      </div>
+    )}
+  </main>
+</Layout>

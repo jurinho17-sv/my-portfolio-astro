@@ -17,7 +17,7 @@ export const themeConfig: ThemeConfig = {
     url: 'https://juho-kim.dev',
     // favicon url
     // recommended formats: svg, png or ico
-    favicon: '/icons/favicon.svg', // or https://example.com/favicon.svg
+    favicon: '/favicon.png', // Ju Ho Kim Bitmoji
   },
   // SITE INFORMATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
@@ -159,16 +159,16 @@ export const themeConfig: ThemeConfig = {
     // social links
     links: [
       {
-        name: 'RSS',
-        url: '/atom.xml', // or /rss.xml
+        name: 'GitHub',
+        url: 'https://github.com/jurinho17-sv',
       },
       {
-        name: 'GitHub',
-        url: 'https://github.com/justinkim-sv',
+        name: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/justinkim-sv/',
       },
       {
         name: 'Email',
-        url: 'justinkim.sv@berkeley.edu',
+        url: 'mailto:juho_kim@berkeley.edu',
       },
     ],
     // year of website start
