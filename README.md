@@ -1,3 +1,11 @@
+# juho-kim.com
+
 This is my personal website.
 
-Author: Ju Ho Kim
+## Live Demo
+
+Here is the URL to the website: [juho-kim.com](https://juho-kim.com)
+
+## Author
+
+Ju Ho Kim
