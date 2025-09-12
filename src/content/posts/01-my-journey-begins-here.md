@@ -4,7 +4,7 @@ publishDate: 2025-08-28
 description: "I got into UC Berkeley"
 tags: ["Enjoyable Adventure", "Silicon Valley", "San Francisco", "Bay Area", "Berkeley"]
 draft: false
-pin: 2
+pin: 0
 ---
 
 # My Journey Begins Here

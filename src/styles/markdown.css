@@ -170,6 +170,11 @@ html.dark .heti pre span {
   --at-apply: 'mb-4';
 }
 
+/* Add vertical borders to table cells */
+.heti :where(th:not(:last-child), td:not(:last-child)) {
+  --at-apply: 'border-r border-r-secondary/25';
+}
+
 /* Lists */
 .heti :where(ul, ol) {
   --at-apply: 'my-6 pl-2em';
@@ -274,3 +279,4 @@ html.dark .heti :where(u) {
 .heti :where(q:is(:lang(zh), :lang(ja), :lang(ko))) {
   quotes: "「" "」" "『" "』";
 }
+
