@@ -17,15 +17,17 @@ It's already the third week of the class, but I've been swamped since it's the b
 
 ![Yes I'm cooked.](./_images/02-cs61a-week1-2/iamcooked.png)
 
-For week 1, there were no heavy things yet, but like my professor said, 
+For week 1, there were no heavy things yet, but like my professor said,
 
 > "All complex things always begin with fundamentals"
 
 Let's go.
 
+---
+
 ## A. Functions
 
-> "Fundamentally, the qualities of good functions all reinforce the idea that functions are abstractions."
+> "Fundamentally, the qualities of good functions all reinforce the idea that **functions are abstractions.**"
 
 This was the first main topic covered in this class.
 
@@ -93,7 +95,7 @@ An example from our [textbook](https://www.composingprograms.com/pages/13-defini
 
 ![25 and 144 yield a return value for sum_squares(), which is 169](./_images/02-cs61a-week1-2/6.png)
 
-![Ended](./_images/02-cs61a-week1-2/7.png)
+![ended](./_images/02-cs61a-week1-2/7.png)
 
 #### Function Objects vs Function Calls
 
@@ -166,7 +168,8 @@ ZeroDivisionError
 
 <br />
 <br />
-<br />
+
+---
 
 ## B. Control
 
@@ -228,12 +231,12 @@ def percent_difference(x, y):
 
 #### Rules for Local Assignment (midterm - environment diagram)
 
-- each function call creates **a new local frame**
+- each function call (not `def` statement) creates **a new local frame**
 - assignment statements **bind** names in the local frame only
 - cannot affect the global frame
 
 #### benefits
-- **Modular**: make program manageable
+- **Modular**: make programs manageable
 - **Safety**: no changes to global variables
 - **Clarity**: you know it
 
@@ -296,7 +299,7 @@ while <expression>:
 
 1. evaluate header expression
 2. if true, execute entire suite, then return to step 1
-3. suite must change some binding to prevent infinite loops
+3. suite **must** change some binding to prevent infinite loops
 
 #### Fibonacci 
 
@@ -412,7 +415,8 @@ run_docstring_examples(sum_naturals, globals(), True)
 
 <br />
 <br />
-<br />
+
+---
 
 ## Assignments
 
@@ -775,10 +779,7 @@ Thank you.
 ---
 ## References
 
-1. DeNero, J. (2024). *Composing Programs*. [https://www.composingprograms.com/](https://www.composingprograms.com/)
+[1] DeNero, J. (2024). *Composing Programs*. University of California, Berkeley. Retrieved from https://www.composingprograms.com/
    - Course textbook for UC Berkeley CS 61A: Structure and Interpretation of Computer Programs
 
-2. Guo, P. (2013). *Online Python Tutor: Composing Programs*. [https://pythontutor.com/cp/composingprograms.html](https://pythontutor.com/cp/composingprograms.html#mode=edit)
-   - Interactive visualization tool for understanding program execution and environment diagrams
-
----
+[2] Guo, P. (2013). *Online Python Tutor: Composing Programs*. Interactive visualization tool for understanding program execution and environment diagrams. Retrieved from https://pythontutor.com/cp/composingprograms.html#mode=edit
