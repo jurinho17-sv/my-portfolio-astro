@@ -542,6 +542,10 @@ for op in operations:
 
 > "Python provides special syntax to apply higher-order functions as part of executing a def statement, called a **decorator**."
 
+We place it with an `@` sign, just before the function that we want to define and it changes the behavior of the function to print out.
+
+So that we can see exactly what's happening and in what order as we execute the body of the function.
+
 Here is a trace, the most common example of Decorators:
 
 ```python
