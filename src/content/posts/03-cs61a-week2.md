@@ -959,8 +959,11 @@ def make_repeater(f, n):
 ## Wrapping Up
 
 Know how to:
+
 - pass functions as inputs
+
 - return functions
+
 - combine loops with function calls
 
 <br />
