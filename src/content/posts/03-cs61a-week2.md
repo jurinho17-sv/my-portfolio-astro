@@ -584,7 +584,7 @@ Output:
 
 <br />
 
-### [Lab 02: Higher-Order Functions, Lambda Expressions](https://cs61a.org/lab/lab02/)
+### Lab 02: Higher-Order Functions, Lambda Expressions
 
 #### Q1: WWPD: The Truth Will Prevail
 
@@ -825,7 +825,7 @@ def cycle(f1, f2, f3):
 
 <br />
 
-### [HW 02: Higher-Order Functions](https://cs61a.org/hw/hw02/)
+### HW 02: Higher-Order Functions
 
 #### Q1: Product
 

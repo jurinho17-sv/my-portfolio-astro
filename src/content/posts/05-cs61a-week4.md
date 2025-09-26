@@ -193,15 +193,15 @@ Write a function `count_partitions(n, m)` that calculates the number of ways to 
 For example, `count_partitions(6, 4)` (the number of partitions of `6` using parts up to `4`) is 9.
 
 ```
-1. 6 = 2 + 4
-2. 6 = 1 + 1 + 4
-3. 6 = 3 + 3
-4. 6 = 1 + 2 + 3
-5. 6 = 1 + 1 + 1 + 3
-6. 6 = 2 + 2 + 2
-7. 6 = 1 + 1 + 2 + 2
-8. 6 = 1 + 1 + 1 + 1 + 2
-9. 6 = 1 + 1 + 1 + 1 + 1 + 1
+6 = 2 + 4
+6 = 1 + 1 + 4
+6 = 3 + 3
+6 = 1 + 2 + 3
+6 = 1 + 1 + 1 + 3
+6 = 2 + 2 + 2
+6 = 1 + 1 + 2 + 2
+6 = 1 + 1 + 1 + 1 + 2
+6 = 1 + 1 + 1 + 1 + 1 + 1
 ```
 
 Let's apply the five steps I mentioned at the beginning of this post.
@@ -376,17 +376,9 @@ I think it's a good habit to try our best to select the better approach that bes
 
 ---
 
-## Assignments
+## Assignment
 
-<br />
-
-### [Lab 03: Recursion, Python Lists](https://cs61a.org/lab/lab03/)
-
-(To be updated)
-
-<br />
-
-### [HW 03: Recursion, Tree Recursioin](https://cs61a.org/hw/hw03/)
+### HW 03: Recursion, Tree Recursioin
 
 #### Q1: Num Eights
 
@@ -755,9 +747,9 @@ Know how to:
 
 Okay, this is it for Week4!
 
-It's 2:30 AM now already.
+It's 2:30AM now already.
 
-Let me go to bed and sleep 😴
+I'm going to get some sleep 😴
 
 Cuz a new week is coming!
 
@@ -774,6 +766,6 @@ Thank you.
 
 ## References
 
-[1] DeNero, J., Klein, D., & Abbeel, P. (2025). Recursive Functions. In *Composing Programs*. Retrieved from https://www.composingprograms.com/pages/17-recursive-functions.html
+[1] J. DeNero, D. Klein, P. Abbeel, "1.7 Recursive Functions," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/17-recursive-functions.html. Accessed: Sep. 22, 2025. (Originally published 2016)
 
 [2] Reducible. (2019, December 11). 5 Simple Steps for Solving Any Recursive Problem [Video]. YouTube. Retrieved from https://youtu.be/ngCos392W4w?si=-ZY1C9HO1b1iBtOt (Accessed September 21, 2025)
