@@ -1,13 +1,13 @@
 ---
-title: "[CS 61A] Week 2"
+title: "Higher-Order Functions"
 publishDate: 2025-09-15
-description: "Higher-Order Functions"
-tags: ["Higher-Order Functions", "Python", "CS 61A: Structure and Interpretation of Computer Programs"]
+description: "[CS 61A] Week 2 - Study Notes"
+tags: ["Higher-Order Functions", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0
 ---
 
-# [CS 61A] Week 2
+# Higher-Order Functions
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 

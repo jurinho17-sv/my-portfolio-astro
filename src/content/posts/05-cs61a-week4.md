@@ -1,13 +1,13 @@
 ---
-title: "[CS 61A] Week 4"
+title: "Recursion, Tree Recursion"
 publishDate: 2025-09-22
-description: "Recursion, Tree Recursion"
-tags: ["Recursion", "Tree Recursion", "Python", "CS 61A: Structure and Interpretation of Computer Programs"]
+description: "[CS 61A] Week 4 - Study Notes"
+tags: ["Recursion", "Tree Recursion", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0
 ---
 
-# [CS 61A] Week 4
+# Recursion, Tree Recursion
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 

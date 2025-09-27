@@ -1,13 +1,13 @@
 ---
-title: "[CS 61A] Week 3"
+title: "Midterm1 Prep. and Recap."
 publishDate: 2025-09-20
-description: "Midterm1 Prep. and Recap."
-tags: ["Midterm 1 (cs61a)", "Python", "CS 61A: Structure and Interpretation of Computer Programs"]
+description: "[CS 61A] Week 3 - Study Notes"
+tags: ["Midterm 1 (cs61a)", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: true
 pin: 0
 ---
 
-# [CS 61A] Week 3
+# Midterm1 Prep. and Recap.
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 

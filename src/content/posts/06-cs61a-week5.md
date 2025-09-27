@@ -1,13 +1,13 @@
 ---
-title: "[CS 61A] Week 5"
+title: "Sequences, Containers, Data Abstraction"
 publishDate: 2025-09-27
-description: "Sequences, Containers, Data Abstraction"
-tags: ["Sequences", "Containers", "Data Abstraction", "Python", "CS 61A: Structure and Interpretation of Computer Programs"]
+description: "[CS 61A] Week 5 - Study Notes"
+tags: ["Sequences", "Containers", "Data Abstraction", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: True
 pin: 0
 ---
 
-# [CS 61A] Week 5
+# Sequences, Containers, Data Abstraction
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 
@@ -64,6 +64,27 @@ But the reason that we use `range` is that it's a convenient way to get a bunch 
 [100, 0]
 ```
 
+```Python
+>>> numbers = range(10)
+>>> even = [num for num in numbers if num % 2 == 0]
+[0, 2, 4, 6, 8]
+```
+
+Two snippets below are working totally same but in different way:
+
+Using a `for` loop:
+```Python
+output = []         # create an empty list
+for item in a:      # iterate through each item
+    if condition:   # check a condition
+        output.append(item * 2) # then append if `True`
+```
+
+Using a list comprehensions:
+```Python
+[item * 2 for item in a if condition]
+```
+
 #### Example 1: Evens
 
 ```Python
@@ -101,7 +122,7 @@ Given these two related lists of the same length:
 Write a list comprehension that evaluates to:
 A list of all the x values (from xs) for which the corresponding y (from ys) is below 10.
 """
-__________________
+____________________________________________
 ```
 
 ```Python
@@ -126,6 +147,8 @@ And we want it if the thing in `ys` at index `i` is less than ten. So, it's foll
 As shown above, these are the two ways that we're using to pull the elements out when we're writing list comprehensions:
 1. we're going to walk through all of the elements in a list with something like `for x in xs` or
 2. we're going to walk over all of the possible indices like `for i in range(len(xs))`
+
+<br />
 
 #### Example 3: Promoted
 
@@ -170,7 +193,7 @@ But, slicing  **does not** impact the original list.
 
 So, `s = s[0] + s[1:]`.
 
-#### Recursion Example: Reverse
+#### Slices & Recursion Example 1: Reverse
 
 ```Python
 # def reverse(s: list) -> list:
@@ -202,10 +225,110 @@ Another way of writing this is the opposite of the first one we just did. Take t
 reverse(s[1:])  # reverse elements including s[1]
 reverse(s[:-1]) # reverse elements excluding s[-1]
 ```
+<br />
+
+#### Slices & Recursion Example 2: Max Product
+
+Implement `max_product`, which takes a list of numbers and returns the maximum product that can be formed by multiplying together non-consecutive elements of the list. Assume that all numbers in the input list are greater than or equal to 1.
+
+```Python
+def max_product(s):
+    """Return the maximum product of non-consecutive elements of s.
+
+    >>> max_product([10, 3, 1, 9, 2])   # 10 * 9
+    90
+    >>> max_product([5, 10, 5, 10, 5])  # 5 * 5 * 5
+    125
+    >>> max_product([])   # The product of no numbers is 1
+    1
+    """
+    if s == []:
+        return _________
+    if len(s) == 1:
+        return _________
+    else:
+        return _____(_________, _________)
+```
+
+```Python
+    if s == []:
+        return 1
+    if len(s) == 1:
+        return s[0]
+    else:   # Recursive step
+        return max(s[0] * max_product(s[2:]), max_product(s[1:]))
+```
+
+In recursive step, we have a choice to make regarding the first element `s[0]`. We must return the max result from two paths.
+
+- One path is to **include** `s[0]`, which simplifies the problem to finding `max_product(s[2:])`
+- and another path is to **exclude** the `s[0]`, which simplifies the problem to finding `max_product(s[1:])`
+
+<br />
+
+#### Another Recursion example
+
+- Implement sums(n, m), which takes a total n and maximum m. It returns a list of all lists:
+    - that sum to n,
+    - that contain only positive numbers up to m, and
+    - in which no two adjacent numbers are the same.
+
+- Two lists with the same numbers in a different order should both be returned.
+
+```Python
+def sums(n, m):
+    """Return lists that sum to n containing positive numbers up to 
+    m that have no adjacent repeats.
+
+    >>> sums(5, 1)
+    []
+    >>> sums(5, 2)
+    [[2, 1, 2]]
+    >>> sums(5, 3)
+    [[1, 3, 1], [2, 1, 2], [2, 3], [3, 2]]
+    >>> sums(5, 5)
+    [[1, 3, 1], [1, 4], [2, 1, 2], [2, 3], [3, 2], [4, 1], [5]]
+    """
+    if n < 0:
+        return []
+    if n == 0:
+        sums_to_zero = []     # Only way to sum to zero
+        return [sums_to_zero] # List of all ways to sum to zero
+    result = []
+    for k in range(1, m + 1):
+        result = result + [ ___ for rest in ___ if rest == [] or ___ ]
+    return result
+```
+
+So here I need to complete the `sums(n, m)`. I'm looking for all lists of positive integers that sum up to `n`, where each integer is at most `m`, and the key constraint is that **no two adjacent nums can be the same**. Order matters, meaning lists [1, 2] and [2, 1] are distinct.
+
+Since I am exploring all possible lists that lead to a total `n`, a **recursive backtracking approach** is the most desired fit. I'll make a choice (the first num `k`), reduce the problem size, and recurse. When I saw this problem at first, I struggled to find a way to combine the `k` with the recursive solutions in the given list comprehensive format.
+
+I have the loop `for k in range(1, m + 1):`, and I know I need to build the `result` list. I kept getting stuck on what exactly fills these blanks.
+
+I need to keep reminding that **recursion is about simplifying**. So let's simplify. Say that I selected a `k`, then I need to think *what is the new, smaller problem* that I need to solve to find the rest of the list. The new total is not `n` anymore, it's `n - k`, but the max num remains `m`. So, the necessary recursive call is `sums(n - k, m)`. That goes into the second blank.
+
+Now, I need to append the selected `k` into a list `rest`. In order to combine them into a list, I need `[k] + rest`, which is what goes into the first blank.
+
+Now, the only remaining task is the constraint "**no two adjacent nums can be the same**". In the `if` condition, I'm checking if I can put the `k` next to the list `rest`. I must know which single num in `rest` must be checked against `k`. It must be the first element `rest[0]` for sure. Because that's the num adjacent to `k`. They must not be equal, so `rest[0] != k` is the condition that should be in the thrid blank. When we look at the line, since a case `rest == []` is already handled, the entire line is completed. (**IMPORTANT**: We can't swap the things in the `or` clause.)
+
+**Base cases** are already provided in the skeleton. But, let's make sure the stopping conditions are correctly established there. 1) If `n == 0`, we've found a valid list. So, we should return a list containing a single empty list which is `[[]]`. 2) If `n < 0`, that path is invalid, so return an empty list `[]`.
+
+```Python
+    for k in range(1, m + 1):
+        result = result + [ [k] + rest for rest in sum(n - k, m) if rest == [] or rest[0] != k ]
+    return result
+```
 
 ![Sequences and Iteration in Python](./_images/06-cs61a-week5/MindMap-sequences.png)
 
+<br />
+<br />
+
 ## 2. Lecture 12 - Containers (Sep 24th, 2025)
+
+<br />
+<br />
 
 ## 3. Lecture 13 - Data Abstraction (Sep 26th, 2025)
 

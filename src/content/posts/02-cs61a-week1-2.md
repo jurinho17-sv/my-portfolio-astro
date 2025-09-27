@@ -1,13 +1,13 @@
 ---
-title: "[CS 61A] Week 1"
+title: "Functions, Control"
 publishDate: 2025-09-12
-description: "Functions, Control"
-tags: ["Functions", "Control", "Python", "CS 61A: Structure and Interpretation of Computer Programs"]
+description: "[CS 61A] Week 1 - Study Notes"
+tags: ["Functions", "Control", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0
 ---
 
-# [CS 61A] Week 1
+# Functions, Control
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 
