@@ -3,7 +3,7 @@ title: "Sequences, Containers, Data Abstraction"
 publishDate: 2025-09-27
 description: "[CS 61A] Week 5 - Study Notes"
 tags: ["Sequences", "Containers", "Data Abstraction", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
-draft: True
+draft: False
 pin: 0
 ---
 
@@ -13,15 +13,13 @@ Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my websi
 
 In Week5, we learned about **Sequences**, **Containers**, and **Data Abstraction**.
 
-This post is a kind of class notes about what I learned this week to make it useful for reviewing before the upcoming midterm2.
+This post is class notes about what I learned this week to make it useful for reviewing before the upcoming exams.
 
 <br />
 
-Let's go.
-
 ---
 
-## 1. Lecture 11 - Sequences (Sep 22nd, 2025)
+## 1. Sequences (Sep 22nd, 2025)
 
 ### List Indexing
 
@@ -320,17 +318,279 @@ Now, the only remaining task is the constraint "**no two adjacent nums can be th
     return result
 ```
 
-![Sequences and Iteration in Python](./_images/06-cs61a-week5/MindMap-sequences.png)
+![Sequences](./_images/06-cs61a-week5/MindMap-sequences.png)
 
 <br />
 <br />
 
-## 2. Lecture 12 - Containers (Sep 24th, 2025)
+## 2. Containers (Sep 24th, 2025)
+
+### List review 
+
+Again, the Reverse example:
+
+```Python
+# def reverse(s: list) -> list:
+def reverse(s):
+    """Return `s` in reverse order.
+
+    >>> reverse([4, 6, 2])
+    [2, 6, 4]
+    """
+    if not s:   # Note: The False value of a list is an empty list
+        return []   # if the list `s` is empty, just return the empty list
+    return reverse(s[1:]) + [s[0]]
+```
+
+From the three options below, which correctly reverse?
+
+- (A) `reverse(s[1:] + [s[0]])`
+    - For (A), the problem is that we're passing the entire list `s[1:] + [s[0]]` into reverse. If we look at the doctest, we would call reverse a `[4, 6, 2]`, and then (A) would call reverse again with a list that has `[6, 2, 4]`. We've still got a list with three elements. So, (A) is **going to run forever** because it's just going to keep reorganizing the elements within `s`. So the problem is that the last element `[s[0]]` should be outside the parentheses. It should be outside the call to reverse because we want to stick it on to the end only after we've reversed everything else.
+- (B) `[s[-1 * i] for i in range(len(s))]`
+    - If you see something like this, I think the thing that's really helpful is to just start walking through an example. Let's take the example again: `reverse([4, 6, 2])`. We'll start with `i = 0`, and so the first element in our list (B) will be `s[-1 * 0]` which is `s[0]`. So the first thing on the list (B) will be that `4`, and we know we don't want four to be the first thing. We wanted them to be in reverse order.
+- (C) `[s[-x + 1] for x in range(reverse(s))]`
+    - One warning sign here is that the function signature `def reverse(s):` said `reverse(s)` and we've also got the same call `reverse(s)` in (C) to reverse `s`, so that's a sign that our code is going to run forever because we haven't made any progress. Also, even if there was something that returned to `reverse(s)` at some point, we're taking the range of a list `range(reverse(s))`, and the argument that `range` takes is a number, an integer, like the length of the list, so this code would also error there. So, basically option (C) has a bunch of problems.
+
+So, (A), (B), and (C) none of 'em work at all.
+
+### Box-and-Pointer Notation
+
+```Python
+def f(s):
+    x = s[0]
+    return [x]
+
+t = [3, [2 + 2, 5]]
+u = [f(t[1]), t]
+print(u)
+```
+
+![](./_images/06-cs61a-week5/lecture12-01.jpg)
+
+> Print Output: `[[4], [3, [4, 5]]]`
+
+### example: Double-Eights with a List
+
+Implement `double_eights`, which takes a list `s` and returns whether two consecutive items are both 8.
+
+- VERSION 1: Using positions (indices)
+
+```Python
+def double_eights(s):
+    """Return whether two consecutive items of list s are 8.
+    
+    >>> double_eights([1, 2, 8, 8])
+    True
+    >>> double_eights([8, 8, 0])
+    True
+    >>> double_eights([5, 3, 8, 8, 3, 5])
+    True
+    >>> double_eights([2, 8, 4, 6, 8, 2])
+    False
+    """
+    for _______________________:
+        if ___________________________:
+            return True
+    return False
+```
+
+The thing that I think is easiest to start with is to think about the case when we want to return `True`. We can fill the second blank in with something like `s[i] == 8 and s[i + 1] == 8`. This is going to check if there's two things next to each other that are both eight. We've got to write a `for` loop. We definitely want to start at the beginning, but we've got to be careful not to go off the end of the list. If we end up at the last index, we're going to check to see if the thing `s[last index]` is the same thing with `s[last index + 1]`, then it'll cause an error.
+
+So, the way that we write the `for` loop is to write for `i` in range of `len(s) - 1`. This keeps us from falling off the the end. `i in range(len(s) - 1)`.
+
+```Python
+    for i in range(len(s) - 1):
+        if s[i] == 8 and s[i + 1] == 8:
+            return True
+    return False
+```
+
+But, what if `s` is an empty list? If `s` is an empty list, we would do `range(0 - 1)` which is `range(-1)`. We need to know what happens if we do `range(-1)`.
+
+```Python
+>>> list (range(-1))
+[]
+```
+
+Because Python tries to make a range starting from 0 going up to -1, and then it doesn't find anything, `list (range(-1))` gives us an empty list `[]`. So this does still work.
+
+- VERSION 2: Using slices
+
+```Python
+def double_eights(s):
+    """Return whether two consecutive items of list s are 8.
+    
+    >>> double_eights([1, 2, 8, 8])
+    True
+    >>> double_eights([8, 8, 0])
+    True
+    >>> double_eights([5, 3, 8, 8, 3, 5])
+    True
+    >>> double_eights([2, 8, 4, 6, 8, 2])
+    False
+    """
+    if _____ == [____]:
+        return True
+    elif len(s) < 2:
+        return False
+    else:
+        return ___________________
+```
+
+The idea of this version is going to be that we're going to try and find that chunk of the list where there's those two 8s next to each other. One of hint in the structure here is that there's no loop in the structure. The fact that there's **no loop** is a good hint that we're gonna need to write some **recursive call** somewhere in order to keep checking the rest of the list.
+
+First thing is something that we're gonna check for when we return `True` and the thing that we can check is the same as we did in VERSION1, just expressed differently.
+
+`if s[:2] == [8, 8]:` >> We're checking if the first two things in the list `s` are 8. If that matches, then we return `True`.
+
+If `len(s) < 2`, then there's definitely not an 88 left, so we can return `False`.
+
+In the last blank, where we need to make a recursive call, we're gonna check to see if the rest of `s` has any double 8s in it. >> `double_eights(s[1:])`
+
+```Python
+    if s[:2] == [8, 8]:
+        return True
+    elif len(s) < 2:
+        return False
+    else:
+        return double_eights(s[1:])
+```
+
+Shouldn't we have this check `elif len(s) < 2` first to see if the length is less than two? Slices don't return an error, they just return an empty list `[]`. On the other hand, in general, list indexing is not generous. It'll give us an error, but slicing will just return an empty list, without returning an error.
+
+### Processing Container values
+
+#### Aggregation
+
+Built-in functions take iterable arguments and aggregate them into a value:
+
+1. `sum(iterable[, start]) -> value`
+
+```Python
+>>> sum(range(3))
+3   # 0 + 1 + 2
+
+>>> sum(range(3), 100)
+103 # 100 + 0 + 1 + 2
+```
+
+```Python
+def cube(k):
+    return pow(k, 3)
+
+def summation(n, term):
+    """Sum the first n terms of a sequence.
+
+    >>> summation(5, cube)
+    225  # 1 + 8 + 27 + 64 + 125
+    """
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + term(k), k + 1
+    return total
+```
+
+Let's rewrite `summation` to be much more concise using a aggregation func `sum`.
+
+```Python
+def summation2(n, term):
+    return sum([term(x) for x in range(1, n + 1)])
+```
+
+`[term(x) for x in range(1, n + 1)]`: We've got a list comprehension here. The way that we create this list is we call term on `x` for every `x` in `range(1, n + 1)`. So the first thing that we want in this `range` is `1`. The last thing that we want in the `range` is `n`. So that's why we pass an argument `n + 1` because the last argument in `range` always tells us where to stop. We stop at one before that one.
+
+2. `max(iterable[, key = func]) -> value` and `max(a, b, c, ...[, key = func]) -> value`
+
+```Python
+midterm_grades = [['Amy', 28], ['John', 35], ['Kay', 14], ['Apollo', 31]]
+
+>>> midterm_grades
+[['Amy', 28], ['John', 35], ['Kay', 14], ['Apollo', 31]]
+
+>>> max(midterm_grades, key = lambda x: x[1])
+['John', 35]
+```
+
+```Python
+>>> max(range(3))
+2
+>>> max(0, 1, 2, 3, 4)
+4
+```
+
+3. `all(iterable) -> bool`
+
+Return `True` if bool(x) is `True` for **all** values x in the iterable.
+
+#### Example
+
+> Definition: A *prefix sum* of a sequence of numbers is the sum of the first n elements for some positive length n.
+
+```Python
+"""Implement `prefix`, which takes a list of numbers `s` and returns a list of the prefix sums of `s` in increasing order of the length of the prefix."""
+
+def prefix(s):
+    """Return a list of all prefix sums of list s.
+
+    >>> prefix([1, 2, 3, 0, 4, 5])
+    [1, 3, 6, 6, 10, 15]
+    >>> prefix([2, 2, 2, 0, -5, 5])
+    [2, 4, 6, 6, 1, 6]
+    """
+    return [______________ for k in _____________]
+```
+
+In the first blank of the expression, we want to add more and more things into our sum. What we can do is `k` can be an index in `range(len(s))`. So, `k` will go 0, 1, 2, 3, ... .
+
+And the thing we would like to sum up is everything that includes `s[k]` and that's why the second argument to slice should be `k+1`. >> `sum(s[:k + 1])`, the `sum` says we're gonna sum up everything in `s` up until `k + 1`. So, here, what we should do is to check if those first and last things on the list look good.
+
+```Python
+    return [sum(s[:k + 1]) for k in range(len(s))]
+```
+
+Also, we could do this example recursively.
+
+#### example: All Possible Sums
+
+```Python
+def sums(n: int) -> list[list[int]]:
+    """Return a list of all of the possible lists of positive integers whose elements add up to n.
+
+    >>> sums(3)
+    [[1, 1, 1], [1, 2], [2, 1], [3]]
+    """
+    result = []
+    for first in range(1, n):
+        result += ____________________________________________
+    return result + [[n]]
+```
+
+Let's trace through what's happening in that `for` loop. When we do `for first in range(1, n):`, we're deciding what could be the first number in our list. For `n = 3`, that gives us 1 and 2 as possible first numbers.
+
+Here's where the recursive thinking kicks in. Let's say I pick `1`, then I need all the ways to make the remaining sum, which is `n - first`, or `3 - 1` = 2. So for each possible first number, I create a new list that starts with that first number, followed by each possible way to make the remaining sum.
+
+So, the blank should be filled with `[[first] + rest for rest in sums(n - first)]`.
+
+Verify:
+- If `first = 1`, then `sums(3 - 1) = sums(2)` gives us `[[1, 1], [2]]`. So we get `[1] + [1, 1] = [1, 1, 1]` and `[1] + [2] = [1, 2]`.
+- If `first = 2`, then `sums(3 - 2) = sums(1)` gives us `[[1]]`. So we get `[2] + [1] = [2, 1]`.
+- Finally, we add `[n]` at the end to handle the case where the entire sum is just one number.
+
+```Python
+    result = []
+    for first in range(1, n):
+        result += [[first] + rest for rest in sums(n - first)]
+    return result + [[n]]
+```
+
+![Containers](./_images/06-cs61a-week5/MindMap-containers.png)
 
 <br />
 <br />
 
-## 3. Lecture 13 - Data Abstraction (Sep 26th, 2025)
+## 3. Data Abstraction (Sep 26th, 2025)
+
+(to be updated)
 
 ---
 
@@ -539,4 +799,4 @@ def make_onion(f, g):
 
 ## References
 
-[1] J. DeNero, D. Klein, P. Abbeel, "2.3 Sequences," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/23-sequences.html. Accessed: Sep. 25, 2025. (Originally published 2016)
+[1] J. DeNero, D. Klein, P. Abbeel, "2.3 Sequences," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/23-sequences.html. Accessed: Sep. 26, 2025. (Originally published 2016)

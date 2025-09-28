@@ -11,7 +11,7 @@ pin: 0
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
 
-On Week 2, which was the last week, we went over the chapter named "Higher-Order Functions" and I'll write about it in this post, while studying.
+In Week 2, which was the last week, we went over the chapter named "Higher-Order Functions" and I'll write about it in this post, while studying.
 
 Also, it's pretty amazing and daunting that our midterm1 is coming in less than a week from this point. I'm definitely cooked.
 
