@@ -23,7 +23,7 @@ This post is class notes about what I learned this week to make it useful for re
 
 ### List Indexing
 
-```Python
+```python
 x = [3, 1, [4, 1, [5, 2], 6, 5], 3, 5]
 ```
 
@@ -39,7 +39,7 @@ It's also useful to loop over all of the elements in a list.
 
 A range is a sequence of consecutive integers.
 
-```Python
+```python
 >>> list(range(-2, 2))  # List constructor
 [-2, -1, 0, 1]
 >>> list(range(4))      # Range with a 0 starting value
@@ -52,7 +52,7 @@ But the reason that we use `range` is that it's a convenient way to get a bunch 
 
 ### List Comprehensions
 
-```Python
+```python
 >>> digits = [1, 8, 0, 8]
 
 >>> [100 * d for d in digits]
@@ -62,7 +62,7 @@ But the reason that we use `range` is that it's a convenient way to get a bunch 
 [100, 0]
 ```
 
-```Python
+```python
 >>> numbers = range(10)
 >>> even = [num for num in numbers if num % 2 == 0]
 [0, 2, 4, 6, 8]
@@ -71,7 +71,7 @@ But the reason that we use `range` is that it's a convenient way to get a bunch 
 Two snippets below are working totally same but in different way:
 
 Using a `for` loop:
-```Python
+```python
 output = []         # create an empty list
 for item in a:      # iterate through each item
     if condition:   # check a condition
@@ -79,13 +79,13 @@ for item in a:      # iterate through each item
 ```
 
 Using a list comprehensions:
-```Python
+```python
 [item * 2 for item in a if condition]
 ```
 
 #### Example 1: Evens
 
-```Python
+```python
 def evens(n: int) -> list[int]:
     """Return a list of the first n even numbers
 
@@ -97,13 +97,13 @@ def evens(n: int) -> list[int]:
     return __________________
 ```
 
-```Python
+```python
     return [2 * i for i in range(n)]
 ```
 
 Or we can also come up with an another way
 
-```Python
+```python
     return [i for i in range(n * 2) if i % 2 == 0]
 ```
 
@@ -111,7 +111,7 @@ Or we can also come up with an another way
 
 #### Example 2: Two Lists
 
-```Python
+```python
 """
 Given these two related lists of the same length:
 `xs = list(range(-10, 11))`,
@@ -123,7 +123,7 @@ A list of all the x values (from xs) for which the corresponding y (from ys) is 
 ____________________________________________
 ```
 
-```Python
+```python
 [xs[i] for i in range(len(xs)) if ys[i] < 10]
 ```
 
@@ -135,7 +135,7 @@ We want a **list of all the x values** for which the corresponding y is below te
 
 And we want it if the thing in `ys` at index `i` is less than ten. So, it's followed by `if ys[i] < 10`.
 
-```Python
+```python
 >>> xs = list(range(-10, 11))
 >>> ys = [x*x - 2*x + 1 for x in xs]
 >>> [xs[i] for i in range(len(xs)) if ys[i] < 10]
@@ -150,7 +150,7 @@ As shown above, these are the two ways that we're using to pull the elements out
 
 #### Example 3: Promoted
 
-```Python
+```python
 """
 Implement `promoted`, which takes a sequence `s` and a one-argument function `f`. It returns a
 list with the same elements as `s`, but with all elements `e` for which `f(e)` is a true value
@@ -167,7 +167,7 @@ def promoted(s, f):
     return ____________
 ```
 
-```Python
+```python
     return [e for e in s if f(e)] + [e for e in s if not f(e)]
 ```
 
@@ -181,7 +181,7 @@ For any list `s`, the expression `s[1:]` is called a **slice** from index 1 to t
 
 But, slicing  **does not** impact the original list.
 
-```Python
+```python
 >>> s = [2, 3, 6, 4]
 >>> s[1:]
 [3, 6, 4]
@@ -193,7 +193,7 @@ So, `s = s[0] + s[1:]`.
 
 #### Slices & Recursion Example 1: Reverse
 
-```Python
+```python
 # def reverse(s: list) -> list:
 def reverse(s):
     """Return `s` in reverse order.
@@ -208,17 +208,17 @@ def reverse(s):
 
 One way to do this is to reverse everything from the first element on and then take the thing that was formerly the first element and stick it at the end:
 
-```Python
+```python
     return reverse(s[1:]) + [s[0]]
 ```
 
 Another way of writing this is the opposite of the first one we just did. Take the last thing and stick it on the beginning:
 
-```Python
+```python
     return [s[-1]] + reverse(s[:-1])
 ```
 
-```Python
+```python
 # might get confused
 reverse(s[1:])  # reverse elements including s[1]
 reverse(s[:-1]) # reverse elements excluding s[-1]
@@ -229,7 +229,7 @@ reverse(s[:-1]) # reverse elements excluding s[-1]
 
 Implement `max_product`, which takes a list of numbers and returns the maximum product that can be formed by multiplying together non-consecutive elements of the list. Assume that all numbers in the input list are greater than or equal to 1.
 
-```Python
+```python
 def max_product(s):
     """Return the maximum product of non-consecutive elements of s.
 
@@ -248,7 +248,7 @@ def max_product(s):
         return _____(_________, _________)
 ```
 
-```Python
+```python
     if s == []:
         return 1
     if len(s) == 1:
@@ -273,7 +273,7 @@ In recursive step, we have a choice to make regarding the first element `s[0]`. 
 
 - Two lists with the same numbers in a different order should both be returned.
 
-```Python
+```python
 def sums(n, m):
     """Return lists that sum to n containing positive numbers up to 
     m that have no adjacent repeats.
@@ -312,7 +312,7 @@ Now, the only remaining task is the constraint "**no two adjacent nums can be th
 
 **Base cases** are already provided in the skeleton. But, let's make sure the stopping conditions are correctly established there. 1) If `n == 0`, we've found a valid list. So, we should return a list containing a single empty list which is `[[]]`. 2) If `n < 0`, that path is invalid, so return an empty list `[]`.
 
-```Python
+```python
     for k in range(1, m + 1):
         result = result + [ [k] + rest for rest in sum(n - k, m) if rest == [] or rest[0] != k ]
     return result
@@ -329,7 +329,7 @@ Now, the only remaining task is the constraint "**no two adjacent nums can be th
 
 Again, the Reverse example:
 
-```Python
+```python
 # def reverse(s: list) -> list:
 def reverse(s):
     """Return `s` in reverse order.
@@ -355,7 +355,7 @@ So, (A), (B), and (C) none of 'em work at all.
 
 ### Box-and-Pointer Notation
 
-```Python
+```python
 def f(s):
     x = s[0]
     return [x]
@@ -375,7 +375,7 @@ Implement `double_eights`, which takes a list `s` and returns whether two consec
 
 - VERSION 1: Using positions (indices)
 
-```Python
+```python
 def double_eights(s):
     """Return whether two consecutive items of list s are 8.
     
@@ -398,7 +398,7 @@ The thing that I think is easiest to start with is to think about the case when 
 
 So, the way that we write the `for` loop is to write for `i` in range of `len(s) - 1`. This keeps us from falling off the the end. `i in range(len(s) - 1)`.
 
-```Python
+```python
     for i in range(len(s) - 1):
         if s[i] == 8 and s[i + 1] == 8:
             return True
@@ -407,7 +407,7 @@ So, the way that we write the `for` loop is to write for `i` in range of `len(s)
 
 But, what if `s` is an empty list? If `s` is an empty list, we would do `range(0 - 1)` which is `range(-1)`. We need to know what happens if we do `range(-1)`.
 
-```Python
+```python
 >>> list (range(-1))
 []
 ```
@@ -416,7 +416,7 @@ Because Python tries to make a range starting from 0 going up to -1, and then it
 
 - VERSION 2: Using slices
 
-```Python
+```python
 def double_eights(s):
     """Return whether two consecutive items of list s are 8.
     
@@ -447,7 +447,7 @@ If `len(s) < 2`, then there's definitely not an 88 left, so we can return `False
 
 In the last blank, where we need to make a recursive call, we're gonna check to see if the rest of `s` has any double 8s in it. >> `double_eights(s[1:])`
 
-```Python
+```python
     if s[:2] == [8, 8]:
         return True
     elif len(s) < 2:
@@ -466,7 +466,7 @@ Built-in functions take iterable arguments and aggregate them into a value:
 
 1. `sum(iterable[, start]) -> value`
 
-```Python
+```python
 >>> sum(range(3))
 3   # 0 + 1 + 2
 
@@ -474,7 +474,7 @@ Built-in functions take iterable arguments and aggregate them into a value:
 103 # 100 + 0 + 1 + 2
 ```
 
-```Python
+```python
 def cube(k):
     return pow(k, 3)
 
@@ -492,7 +492,7 @@ def summation(n, term):
 
 Let's rewrite `summation` to be much more concise using a aggregation func `sum`.
 
-```Python
+```python
 def summation2(n, term):
     return sum([term(x) for x in range(1, n + 1)])
 ```
@@ -501,7 +501,7 @@ def summation2(n, term):
 
 2. `max(iterable[, key = func]) -> value` and `max(a, b, c, ...[, key = func]) -> value`
 
-```Python
+```python
 midterm_grades = [['Amy', 28], ['John', 35], ['Kay', 14], ['Apollo', 31]]
 
 >>> midterm_grades
@@ -511,7 +511,7 @@ midterm_grades = [['Amy', 28], ['John', 35], ['Kay', 14], ['Apollo', 31]]
 ['John', 35]
 ```
 
-```Python
+```python
 >>> max(range(3))
 2
 >>> max(0, 1, 2, 3, 4)
@@ -526,7 +526,7 @@ Return `True` if bool(x) is `True` for **all** values x in the iterable.
 
 > Definition: A *prefix sum* of a sequence of numbers is the sum of the first n elements for some positive length n.
 
-```Python
+```python
 """Implement `prefix`, which takes a list of numbers `s` and returns a list of the prefix sums of `s` in increasing order of the length of the prefix."""
 
 def prefix(s):
@@ -552,7 +552,7 @@ Also, we could do this example recursively.
 
 #### example: All Possible Sums
 
-```Python
+```python
 def sums(n: int) -> list[list[int]]:
     """Return a list of all of the possible lists of positive integers whose elements add up to n.
 
@@ -576,7 +576,7 @@ Verify:
 - If `first = 2`, then `sums(3 - 2) = sums(1)` gives us `[[1]]`. So we get `[2] + [1] = [2, 1]`.
 - Finally, we add `[n]` at the end to handle the case where the entire sum is just one number.
 
-```Python
+```python
     result = []
     for first in range(1, n):
         result += [[first] + rest for rest in sums(n - first)]
@@ -606,7 +606,7 @@ Verify:
 
 Implement `print_if`, which takes a list `s` and a one-argument function `f`. It prints each element `x` of `s` for which `f(x)` returns a true value.
 
-```Python
+```python
 # --------------------------
 # Q2: Print If
 def print_if(s, f):
@@ -633,7 +633,7 @@ def print_if(s, f):
 
 Implement `close`, which takes a list of integers `s` and a non-negative integer `k`. It returns how many of the elements of `s` are within `k` of their index. That is, the absolute value of the difference between the element and its index is less than or equal to `k`. (Remember that list is "zero-indexed"; the index of the first element is `0`.)
 
-```Python
+```python
 # --------------------------
 # Q3: Close
 def close(s: list[int], k: int) -> int:
@@ -668,7 +668,7 @@ def close(s: list[int], k: int) -> int:
 
 Implement `close_list`, which takes a list of integers `s` and a non-negative integer `k`. It returns a list of the elements of `s` that are within `k` of their index. That is, the absolute value of the difference between the element and its index is less than or equal to `k`.
 
-```Python
+```python
 # Q5: Close List
 def close_list(s: list[int], k: int) -> list[int]:
     """Return a list of the elements of s that are within k of their index.
@@ -691,7 +691,7 @@ def close_list(s: list[int], k: int) -> list[int]:
 
 Implement the function `squares`, which takes in a list of positive integers. It returns a list that contains the square roots of the elements of the original list that are perfect squares. Use a list comprehension. (To find if `x` is a perfect square, you can check if `sqrt(x)` equals `round(sqrt(x))`.)
 
-```Python
+```python
 # Q6: Squares Only
 from math import sqrt
 
@@ -716,7 +716,7 @@ def squares(s: list[int]) -> list[int]:
 
 Write a recursive function that takes in a positive integer `n` and determines if its digits contain two adjacent `8`s (that is, two `8`s right next to each other).
 
-```Python
+```python
 # Q7: Double Eights
 def double_eights(n: int) -> bool:
     """Returns whether or not n has two digits in row that
@@ -757,7 +757,7 @@ def double_eights(n: int) -> bool:
 
 Write a function `make_onion` that takes in two one-argument functions, `f` and `g`. It returns a function that takes in three arguments: `x`, `y`, and `limit`. The returned function returns `True` if it is possible to reach `y` from `x` using up to `limit` calls to `f` and `g`, and `False` otherwise. For example, if `f` adds 1 and `g` doubles, then it is possible to reach 25 from 5 in four calls: `f(g(g(f(5))))`.
 
-```Python
+```python
 # Q8: Making Onions
 def make_onion(f, g):
     """Return a function can_reach(x, y, limit) that returns
