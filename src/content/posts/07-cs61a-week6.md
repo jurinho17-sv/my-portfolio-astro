@@ -1,6 +1,6 @@
 ---
 title: "Trees, Mutability, and Iterators"
-publishDate: 2025-09-XX
+publishDate: 2025-09-29
 description: "[CS 61A] Week 6 - Study Notes"
 tags: ["Trees", "Mutability", "Iterators", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: True
