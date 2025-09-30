@@ -13,13 +13,13 @@ Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my websi
 
 In Week5, we learned about **Sequences**, **Containers**, and **Data Abstraction**.
 
-This post is class notes about what I learned this week to make it useful for reviewing before the upcoming exams.
+This post is study notes about what I learned this week to make it useful for reviewing.
 
 <br />
 
 ---
 
-## 1. Sequences (Sep 22nd, 2025)
+## 1. Sequences
 
 ### List Indexing
 
@@ -68,7 +68,7 @@ But the reason that we use `range` is that it's a convenient way to get a bunch 
 [0, 2, 4, 6, 8]
 ```
 
-Two snippets below are working totally same but in different way:
+Two snippets below work the same way but use different syntax:
 
 Using a `for` loop:
 ```python
@@ -131,7 +131,7 @@ This confused me during the class. The thing is, we always need to remember what
 
 We want a **list of all the x values** for which the corresponding y is below ten. That's why it begins with `[xs[i]]`.
 
-`for i in range(len(xs))`: this iterates through all of the indices of `xs`.
+`for i in range(len(xs))`: this iterates through all the indices of `xs`.
 
 And we want it if the thing in `ys` at index `i` is less than ten. So, it's followed by `if ys[i] < 10`.
 
@@ -171,13 +171,13 @@ def promoted(s, f):
     return [e for e in s if f(e)] + [e for e in s if not f(e)]
 ```
 
-The boolean expression `not f(e)` is the same thing as saying only the things for which `f(e)` returned `False`.
+The boolean expression `not f(e)` is the same thing as saying only the elements for which `f(e)` returns `False`.
 
 ### Slices & Recursion
 
 > "Slices of lists are useful for making recursive calls"
 
-For any list `s`, the expression `s[1:]` is called a **slice** from index 1 to the end. Just chopped off the 0th element of `s`, which is `s[0]`.
+For any list `s`, the expression `s[1:]` creates a **slice** from index 1 to the end. Just chopped off the 0th element of `s`, which is `s[0]`.
 
 But, slicing  **does not** impact the original list.
 
@@ -191,7 +191,7 @@ But, slicing  **does not** impact the original list.
 
 So, `s = s[0] + s[1:]`.
 
-#### Slices & Recursion Example 1: Reverse
+#### Example 1: Reverse
 
 ```python
 # def reverse(s: list) -> list:
@@ -225,7 +225,7 @@ reverse(s[:-1]) # reverse elements excluding s[-1]
 ```
 <br />
 
-#### Slices & Recursion Example 2: Max Product
+#### Example 2: Max Product
 
 Implement `max_product`, which takes a list of numbers and returns the maximum product that can be formed by multiplying together non-consecutive elements of the list. Assume that all numbers in the input list are greater than or equal to 1.
 
@@ -241,11 +241,11 @@ def max_product(s):
     1
     """
     if s == []:
-        return _________
+        return _
     if len(s) == 1:
-        return _________
+        return ____
     else:
-        return _____(_________, _________)
+        return ___(________________________, __________________)
 ```
 
 ```python
@@ -264,7 +264,7 @@ In recursive step, we have a choice to make regarding the first element `s[0]`. 
 
 <br />
 
-#### Another Recursion example
+#### Example 3: Sum Fun
 
 - Implement sums(n, m), which takes a total n and maximum m. It returns a list of all lists:
     - that sum to n,
@@ -314,7 +314,7 @@ Now, the only remaining task is the constraint "**no two adjacent nums can be th
 
 ```python
     for k in range(1, m + 1):
-        result = result + [ [k] + rest for rest in sum(n - k, m) if rest == [] or rest[0] != k ]
+        result = result + [ [k] + rest for rest in sums(n - k, m) if rest == [] or rest[0] != k ]
     return result
 ```
 
@@ -323,7 +323,7 @@ Now, the only remaining task is the constraint "**no two adjacent nums can be th
 <br />
 <br />
 
-## 2. Containers (Sep 24th, 2025)
+## 2. Containers
 
 ### List review 
 
@@ -544,7 +544,7 @@ In the first blank of the expression, we want to add more and more things into o
 
 And the thing we would like to sum up is everything that includes `s[k]` and that's why the second argument to slice should be `k+1`. >> `sum(s[:k + 1])`, the `sum` says we're gonna sum up everything in `s` up until `k + 1`. So, here, what we should do is to check if those first and last things on the list look good.
 
-```Python
+```python
     return [sum(s[:k + 1]) for k in range(len(s))]
 ```
 
@@ -583,14 +583,356 @@ Verify:
     return result + [[n]]
 ```
 
+### Dictionaries
+
+```python
+>>> {}
+{}
+>>> midterm_grades = {"Kay": 35, "John": 2}
+>>> midterm_grades_list = [["Kay", 35], ["John", 2]]
+```
+
+The nice thing about the dictionary is I can look things up.
+
+```python
+>>> midterm_grades["Kay"]
+35
+```
+
+Just like we had the list comprehension to make a list, we can do a similar thing where we tell Python how to make a dictionary.
+
+```python
+# Dictionary Comprehensions
+#   {<key exp>  :   <value exp> for <name>  in     <iter exp>      if <filter exp>} 
+>>> {grade[0]   :   grade[1]    for grade   in  midterm_grades_list}
+{'Kay': 35, 'John': 2}
+>>> {name:grade for name, grade in midterm_grades_list} # Unpacking
+{'Kay': 35, 'John': 2}
+```
+
+This gives me a new dictionary where I've told Python iterate through everything in `midterm_grades_list`.
+
+```python
+>>> midterm_grades
+{"Kay": 35, "John": 2}
+>>> type(midterm_grades)
+<class 'dict'>
+>>> len(midterm_grades)
+2
+```
+
+`midterm_grades` is also a thing that's iterable. That's this word that we've been throwing around, but that means that we can iterate over all of the things in `midterm_grades`. I could write things like:
+
+```python
+for x in midterm_grades:
+    print(x)
+```
+
+```python
+Kay
+John
+```
+
+This might not be what we expected. We got all of the names, but we didn't get any of the values. So this is how dictionaries work, that the thing that's iterable in a dictionary is just the key.
+
+```python
+for x in midterm_grades:
+    print(x, " got a grade of ", midterm_grades[x])
+```
+
+```python
+Kay got a grade of 35
+John got a grade of 2
+```
+
+If you'd like all of the values:
+
+```python
+>>> midterm_grades.values()
+dict_values([35, 2])        # looks like a list, but it's not quite a list
+>>> type(midterm_grades.values())
+<class 'dict_values'>
+```
+
+```python
+>>> midterm_grades.values()[1]  # we can't index into it
+# TypeError: 'dict_values' object is not subscriptable
+```
+
+But, it is iterable, which means that I can write a `for` loop or I can use the aggregation functions.
+
+```python
+for grade in midterm_grades.values():
+    print(grade)
+```
+
+```python
+35
+2
+```
+
+We can pass it into some of the aggregation functions.
+
+```python
+>>> min(midterm_grades.values())
+2   # we can do the same thing with the `max` or the `sum`
+```
+
+But, we can also turn `midterm_grades.values()` into a list.
+
+```python
+>>> list(midterm_grades.values())
+[35, 2]
+
+# FYI
+>>> midterm_grades
+{"Kay": 35, "John": 2}
+>>> list(midterm_grades)
+['Kay', 'John']
+```
+
+We can make a key with multiple items. But that does need to be a single value. We can't just put without brackets.
+
+```python
+>>> {"Kay": [35, 0, 89]}
+{'Kay': [35, 0, 89]}
+
+>>> {"Kay": 35, 0, 89}
+# SyntaxError: invalid syntax
+```
+
+We could also make this a function.
+
+```python
+def get_grade():
+    return 30
+"""-----------------------"""
+>>> {get_grade():get_grade()}
+{30: 30}
+```
+
+#### Dictionaries - Example 1: Multiples
+
+Implement `multiples`, which **takes** two lists of positive numbers `s` and `factors`. It **returns** a dictionary in which each element of `factors` is a **key**, and the **value** for each key is a list of the elements of `s` that are multiples of the key.
+
+```python
+def multiples(s, factors):
+    """Create a dictionary where each factor is a key and each value is the elements of s that are multiples of the key.
+    
+    >>> multiples([3, 4, 5, 6, 7, 8], [2, 3])
+    {2: [4, 6, 8], 3: [3, 6]}
+    >>> multiples([1, 2, 3, 4, 5], [2, 5, 8])
+    {2: [2, 4], 5: [5], 8: []}
+    """
+    return {d: [x for x in _ if __________] for d in _______}
+```
+
+When we look at the `return` statement, that is telling us that we're going to make a bunch of dictionary entries that each have `d` as the key. I think it's easiest to fill in the last blank first, because we can think of what do we want `d` to be. We want `d` to be each of the things in `factors`.
+
+```python
+    return {d: [x for x in _ if __________] for d in factors}
+```
+
+Now, for each thing `d` in `factors`, we want the value to be a list. That's the thing in square brackets: `[x for x in ________ if ___________]`
+
+We want `x` to be all of the things in `s` for which `d` is a factor of them. We're looping through all of the things in the list `s` and we'd like to keep them only if `x % d == 0`.
+
+```python
+    return {d: [x for x in s if x % d == 0] for d in factors}
+```
+
+### Recursion (again)
+
+The core idea behind **tree recursion** is to make a really small choice, and then for each of those choices recurse.
+
+For a lot of other problems, it's gonna be helpful to think about what is the smallest choice that I can possibly make before punting the rest of the work to another recursive call.
+
+#### Example 1 - Recursion and Strings
+
+**Definition:** When parking vehicles in a row, a motorcycle takes up 1 parking spot and a car takes up 2 adjacent parking spots. A string of length n can represent n adjacent parking spots using % for a motorcycle, <> for a car, and . for an empty spot.
+
+For example: '.%%.<><>' (Thanks to the Berkeley Math Circle for introducing this question.)
+
+Implement `count_park`, which returns the number of ways that vehicles can be parked in n adjacent parking spots for positive integer n. Some or all spots can be empty.
+
+```python
+def count_park(n):
+    """Count the ways to park cars and motorcycles in n adjacent spots.
+    >>> count_park(1) # '.' or '%'
+    2
+    >>> count_park(2) # '..', '.%', '%.', '%%', or '<>'
+    5
+    >>> count_park(4) # some examples: '<><>', '.%%.', '%<>%', '%.<>'
+    29
+    """
+```
+
+What's the very first thing we can think about doing here? Let's say we're trying to fill three parking spaces, which means we have `n == 3`. We haven't parked anything. How can we make just a tiny bit of progress? What's the smallest possible progress that we can make? We can decide what to put in the first spot. Here's the three choices. Two options(% and .) leave two spaces left, but the car(<>) option leaves only one space left.
+
+Now, we've made those choices, what recursive call should we make?
+
+Once we've decided to park a motorcycle(%), we've got two spaces left. We already filled one of them, so we can call `count_park(n - 1)` to decide how to fill the rest of those spaces.
+
+Likewise, when we use an empty spot(.).
+
+Now, when we parked a car(<>), let's just make a recursive call `count_park(n - 2)` without trying fancy thinking so that our lives will be much easier.
+
+```python
+def count_park(n):
+    """Count the ways to park cars and motorcycles in n adjacent spots.
+    >>> count_park(1) # '.' or '%'
+    2
+    >>> count_park(2) # '..', '.%', '%.', '%%', or '<>'
+    5
+    >>> count_park(4) # some examples: '<><>', '.%%.', '%<>%', '%.<>'
+    29
+    """
+    if n < 0:
+        return _
+    elif n == 0:
+        return _
+    else:
+        return ________________________________________________________
+```
+
+Before we look at the base case, it's always good to look at the recursive call first. Because the base cases for recursive calls are very very hard.
+
+We know we need to make some recursive call here. The actual results that we want in the last blank is just to add all of those counts up.
+
+```python
+        return count_park(n - 1) + count_park(n - 1) + count_park(n - 2)
+```
+
+In general, with **tree recursion**, we decide to make some choice.
+
+Now let's fill in those bases cases. The most helpful thing to do it is to try and think of which recursive calls will lead to the base cases. The best way to do that is just to do an simplest example on our scratch paper or something like that.
+
+Back to the code, when `n < 0`, it means we parked too much. So we're gonna `return 0`. There's no valid ways to park in this direction.
+
+If `n == 0`, we parked exactly the right amount of stuff, so that's where we're gonna `return 1`.
+
+```python
+    if n < 0:
+        return 0
+    elif n == 0:
+        return 1
+    else:
+        return count_park(n - 1) + count_park(n - 1) + count_park(n - 2)
+```
+
+#### Quick Review: Adding Lists & Strings
+
+```python
+>>> x = 'cal'
+>>> y = 'bears'
+>>> u = [x]
+>>> v = [y]
+
+>>> x + y
+'calbears'
+
+>>> u + v
+['cal', 'bears']
+
+>>> ['go ' + z for z in [x, y]]
+['go cal', 'go bears']
+```
+
+# this is very IMPORTANT below
+
+```python
+>>> s = []  # Using a list that's totally empty
+>>> ['cal' + x for x in s]  # `x` is never gonna get assigned to anything
+[]  # So, any of the code will be executed, and end up with just an empty list
+```
+
+```python
+>>> s = ['']    # This is not an empty list. It's a list that has one item, empty string.
+>>> ['cal' + x for x in s]  # we've got one thing to assign `x` to. It's an empty string.
+['cal'] # and we get a list with just 'cal' back
+```
+
+#### Example 2 - Recursion and Strings
+
+Implement `park`, which **returns** a list of all the ways, represented as strings, that vehicles can be parked in `n` adjacent parking spots for positive integer `n`. Spots can be empty.
+
+```python
+def park(n):
+    """Return the ways to park cars and motorcycles in `n` adjacent spots.
+    >>> park(1)
+    ['%', '.']
+    >>> park(2)
+    ['%%', '%.', '.%', '..', '<>']
+    >>> len(park(4))    # some examples: '<><>', '.%%.', '%<>%', '%.<>'
+    29
+    """
+    if n < 0:
+        return __
+    elif n == 0:
+        return _____
+    else:
+        return _____________________________________________________________________________________________________
+```
+
+```
+Example: park(3)
+
+%%%
+%%.
+%.%     # motorcycle first
+%..
+%<>
+------
+.%%
+.%.
+..%     # nothing first
+...
+.<>
+------
+<>%     # car first
+<>.
+```
+
+```python
+    else:
+        return (motorcycle first                + nothing first                     + car first)
+```
+
+```python
+    else:
+        return ['%' + s for s in park(n - 1)]   + ['.' + s for s in park(n - 1)]    + ['<>' + s for s in park(n - 2)]
+```
+
+What are the base cases?
+
+When `n < 0`, we've got no valid ways of parking. We have an **empty list** `[]`. There's nothing to do.
+
+```python
+    if n < 0:
+        return []
+```
+
+When `n == 0`, that means we've filled up all of the spots. If we just returned an empty list, we would never stick something onto anything. We need something to iterate through so that we can create a string. So we don't want to return an empty list `[]`. That's where we've got a list that just has one thing, an **empty string** `['']`, not an empty list `[]`.
+
+```python
+    elif n == 0:
+        return ['']
+```
+
+Final Answer:
+```python
+def park(n):
+    if n < 0:
+        return []
+    elif n == 0:
+        return ['']
+    else:
+        return ['%' + s for s in park(n - 1)]   + ['.' + s for s in park(n - 1)]    + ['<>' + s for s in park(n - 2)]
+```
+
+<br />
+
 ![Containers](./_images/06-cs61a-week5/MindMap-containers.png)
-
-<br />
-<br />
-
-## 3. Data Abstraction (Sep 26th, 2025)
-
-(to be updated)
 
 ---
 
@@ -794,6 +1136,34 @@ def make_onion(f, g):
 ```
 
 ![Terminal output](./_images/06-cs61a-week5/lab03-08.png)
+
+## Key Takeaways
+
+Know how to:
+- **Index and slice lists** using bracket notation (`s[i]`, `s[1:]`, `s[:-1]`) and understand that slicing creates new lists without modifying the original
+- **Write list comprehensions** with the syntax `[expression for item in iterable if condition]` as a concise alternative to for loops
+- **Use `range()`** effectively for generating sequences of integers, understanding it stores only start/stop values rather than creating full lists
+- **Apply recursion with lists** by making recursive calls on slices (e.g., `s[1:]` or `s[2:]`) to process sublists
+- **Distinguish between base cases** in recursion: return `[]` when a path is invalid (e.g., `n < 0`) and `[[]]` or `['']` when representing one valid empty solution
+- **Work with dictionaries** including creation with `{}`, access with `dict[key]`, iteration over keys/values, and dictionary comprehensions
+- **Use aggregation functions** like `sum()`, `max()`, `min()`, and `all()` on iterables, including with custom `key` functions
+- **Implement tree recursion** by making a small choice first, then recursing on the remaining subproblems (e.g., choosing what to place in the first parking spot)
+- **Handle adjacent element constraints** by checking `s[i]` and `s[i+1]` when iterating with `range(len(s) - 1)`, or by checking `s[:2]` in recursive solutions
+- **Build solutions incrementally** using list concatenation in comprehensions (e.g., `[k] + rest`) to combine choices with recursive results
+- **Recognize when to iterate vs. recurse**: use iteration for simple sequential processing, recursion when subproblems have the same structure as the original problem
+
+## Wrapping up
+
+You like squirrels? I do.
+
+Hope you have a great upcoming week!
+
+<br />
+<br />
+
+Thank you.
+
+![](./_images/06-cs61a-week5/calsquirrel.png)
 
 ---
 

@@ -370,9 +370,7 @@ I think it's a good habit to try our best to select the better approach that bes
 
 <br />
 
-### 6. A Mind Map of Recursion
-
-![](./_images/05-cs61a-week4/01-Recursion-MindMap.png)
+![Recursion](./_images/05-cs61a-week4/01-Recursion-MindMap.png)
 
 ---
 
