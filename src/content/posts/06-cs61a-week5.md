@@ -1,7 +1,7 @@
 ---
 title: "Sequences, Containers, Data Abstraction"
 publishDate: 2025-09-27
-description: "[CS 61A] Week 5 - Study Notes"
+description: "[CS 61A] Study Notes - 5"
 tags: ["Sequences", "Containers", "Data Abstraction", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: False
 pin: 0
@@ -10,6 +10,8 @@ pin: 0
 # Sequences, Containers, Data Abstraction
 
 Hi, I'm Ju Ho Kim and thank you very much for taking your time to visit my website!
+
+<br />
 
 In Week5, we learned about **Sequences**, **Containers**, and **Data Abstraction**.
 
@@ -773,7 +775,7 @@ Now, we've made those choices, what recursive call should we make?
 
 Once we've decided to park a motorcycle(%), we've got two spaces left. We already filled one of them, so we can call `count_park(n - 1)` to decide how to fill the rest of those spaces.
 
-Likewise, when we use an empty spot(.).
+Likewise, when we use an empty spot(.), we can call `count_park(n - 1)` to fill the remaining spaces.
 
 Now, when we parked a car(<>), let's just make a recursive call `count_park(n - 2)` without trying fancy thinking so that our lives will be much easier.
 
@@ -838,9 +840,9 @@ If `n == 0`, we parked exactly the right amount of stuff, so that's where we're 
 ['go cal', 'go bears']
 ```
 
+```python
 # this is very IMPORTANT below
 
-```python
 >>> s = []  # Using a list that's totally empty
 >>> ['cal' + x for x in s]  # `x` is never gonna get assigned to anything
 []  # So, any of the code will be executed, and end up with just an empty list
@@ -933,6 +935,8 @@ def park(n):
 <br />
 
 ![Containers](./_images/06-cs61a-week5/MindMap-containers.png)
+
+![Data Abstraction](./_images/06-cs61a-week5/MindMap-dataabstraction.png)
 
 ---
 
@@ -1137,20 +1141,7 @@ def make_onion(f, g):
 
 ![Terminal output](./_images/06-cs61a-week5/lab03-08.png)
 
-## Key Takeaways
-
-Know how to:
-- **Index and slice lists** using bracket notation (`s[i]`, `s[1:]`, `s[:-1]`) and understand that slicing creates new lists without modifying the original
-- **Write list comprehensions** with the syntax `[expression for item in iterable if condition]` as a concise alternative to for loops
-- **Use `range()`** effectively for generating sequences of integers, understanding it stores only start/stop values rather than creating full lists
-- **Apply recursion with lists** by making recursive calls on slices (e.g., `s[1:]` or `s[2:]`) to process sublists
-- **Distinguish between base cases** in recursion: return `[]` when a path is invalid (e.g., `n < 0`) and `[[]]` or `['']` when representing one valid empty solution
-- **Work with dictionaries** including creation with `{}`, access with `dict[key]`, iteration over keys/values, and dictionary comprehensions
-- **Use aggregation functions** like `sum()`, `max()`, `min()`, and `all()` on iterables, including with custom `key` functions
-- **Implement tree recursion** by making a small choice first, then recursing on the remaining subproblems (e.g., choosing what to place in the first parking spot)
-- **Handle adjacent element constraints** by checking `s[i]` and `s[i+1]` when iterating with `range(len(s) - 1)`, or by checking `s[:2]` in recursive solutions
-- **Build solutions incrementally** using list concatenation in comprehensions (e.g., `[k] + rest`) to combine choices with recursive results
-- **Recognize when to iterate vs. recurse**: use iteration for simple sequential processing, recursion when subproblems have the same structure as the original problem
+<br />
 
 ## Wrapping up
 

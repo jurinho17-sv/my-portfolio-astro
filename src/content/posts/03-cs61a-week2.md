@@ -1,7 +1,7 @@
 ---
 title: "Higher-Order Functions"
 publishDate: 2025-09-15
-description: "[CS 61A] Week 2 - Study Notes"
+description: "[CS 61A] Study Notes - 2"
 tags: ["Higher-Order Functions", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0

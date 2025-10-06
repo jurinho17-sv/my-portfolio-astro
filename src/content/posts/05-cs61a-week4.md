@@ -1,7 +1,7 @@
 ---
 title: "Recursion, Tree Recursion"
 publishDate: 2025-09-22
-description: "[CS 61A] Week 4 - Study Notes"
+description: "[CS 61A] Study Notes - 4"
 tags: ["Recursion", "Tree Recursion", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0

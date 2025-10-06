@@ -1,7 +1,7 @@
 ---
 title: "Functions, Control"
 publishDate: 2025-09-12
-description: "[CS 61A] Week 1 - Study Notes"
+description: "[CS 61A] Study Notes - 1"
 tags: ["Functions", "Control", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: false
 pin: 0

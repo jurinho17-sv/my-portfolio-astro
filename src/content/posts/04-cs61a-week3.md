@@ -1,7 +1,7 @@
 ---
 title: "Midterm1 Prep. and Recap."
 publishDate: 2025-09-20
-description: "[CS 61A] Week 3 - Study Notes"
+description: "[CS 61A] Study Notes - 3"
 tags: ["Midterm 1 (cs61a)", "Python", "CS 61A", "Structure and Interpretation of Computer Programs"]
 draft: true
 pin: 0
