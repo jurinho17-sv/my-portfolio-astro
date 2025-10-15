@@ -199,6 +199,105 @@ here we need to decide what thing we need to look for each of the branches of bt
 
 We need to look at the `branches(u)`, which is just the part of the tree `u`. If in this call we were looking at the `branches(t)`, we would just keep doing the same work again and again and again where we would look at all of the roots branches and we would never go further down in the tree.
 
+<br />
+
+## Example: Make Path
+
+A list describes a path if it contains labels along a path from the root of a tree.
+Implement `make_path`, which takes a tree `t` with unique labels and a list `p` that starts with the root label of `t`. It returns the tree `u` with the fewest nodes that contains all the paths in `t` as well as a (possibly new) path `p`.
+
+Skeleton code:
+```python
+def make_path(t, p):
+    """return a tree like `t` also containing path `p`."""
+    assert p[0] == label(t), 'Impossible'
+    if len(p) == 1:
+        return t
+    new_branches = []
+    found_p1 = False
+    for b in branches(t):
+        if label(b) == p[1]:
+            new_branches.append(________________)
+            found_p1 = True
+        else:
+            new_branches.append(b)
+    if not found_p1:
+        new_branches.append(________________)
+    return tree(label(t), new_branches)
+```
+
+The idea of this problem is to make a new path on a tree.
+
+![](./_images/07-cs61a-week6/make_path.png)
+
+For each branch `b`, we check if its label matches `p[1]`. There are two cases we need to consider:
+
+<br />
+
+**Case 1**: When the branch label matches `p[1]`
+
+This means we found a branch that continues our path. In this case, I need to figure out what to append to `new_branches`. This should be a **recursive problem**.
+
+So I need to call `make_path` on this branch `b`, but with what path. Already matched `p[0]` at the root, and now `p[1]` matches this branch, so the remaining path is `p[1:]`, everything from index 1 onwards.
+
+The first blank should be `make_path(b, p[1:])`
+
+```python
+    for b in branches(t):
+        if label(b) == p[1]:
+            new_branches.append(make_path(b, p[1:]))
+            found_p1 = True
+        else:
+            new_branches.append(b)
+```
+
+This recursive call will return a new branch that contains the full path we want.
+
+<br />
+
+**Case 2**: The branch label doesn't match `p[1]`.
+
+If the branch doesn't match what we're looking for, we jsut keep it as is. We append `b` directly to `new_branches` cuz this branch isn't part of the path we're creating.
+
+In the `if not found_p1:` block handles the case where none of the existing branches matched `p[1]`. So we need to create a new branch. This is the special case where we're adding completely new nodes to the tree.
+
+I need to create a new branch starting with `p[1]`. I can do this by creating a tree with just that label: `tree(p[1])`. But that's just a single node. I need to thing about the rest of the path. Again this is a recursive problem. I should call `make_path` to build the rest of the path.
+
+- `tree(p[1])` is a new tree with just the label `p[1]`
+- `p[1:]` is the remaining path starting from `p[1]`
+
+The second blank should be `make_path(tree(p[1]), p[1:])`
+
+<br />
+
+The complete implementation:
+```python
+def make_path(t, p):
+    """return a tree like `t` also containing path `p`."""
+    assert p[0] == label(t), 'Impossible'
+    if len(p) == 1:
+        return t
+    new_branches = []
+    found_p1 = False
+    for b in branches(t):
+        if label(b) == p[1]:
+            new_branches.append(make_path(b, p[1:]))
+            found_p1 = True
+        else:
+            new_branches.append(b)
+    if not found_p1:
+        new_branches.append(make_path(tree(p[1]), p[1:]))
+    return tree(label(t), new_branches)
+```
+
+So,
+- When a branch matches `p[1]`: Recursively build that branch with the remaining path.
+- When no branch matches: Create a new branch and recursively build it with the remaining path.
+
+**Recursive Leap of Faith!!**: The recursion will add all the missing nodes 🙏
+
+<br />
+
 ## Discussion 05: Trees
 
 ### Q1: Warm Up
@@ -752,7 +851,120 @@ def sums(n, m):
 
 ## 3. Iterators
 
-(to be updated)
+```python
+a = [1, 2, 3]
+b = [a, 4]
+c = iter(a)
+d = c
+print(next(c))  # 1
+print(next(d))  # 2
+print(b)    # [[1, 2, 3], 4], the iterators did not change the underlying list
+```
+
+### Map Function
+
+`map(func, iterable)`: Make an **iterator** over the return values of calling func on each element of the iterable.
+
+```python
+>>> s = [1, 2, 3, 4]
+>>> t = map(lambda x: x*x, s)   # `t` is an iterator
+>>> next(t)
+1
+>>> next(t)
+4
+>>> sum(t)
+25  # 9 + 16
+>>> sum(t)
+0   # nothing left
+
+>>> average = sum(s) / len(s)
+>>> average
+2.5
+
+# the way to compute the average of the results of the `map` func
+>>> avg = sum(t) / len(list(t)) # since `t` is an iterable, convert it to a list
+ZeroDivisionError   # whatt??
+>>> sum(t)
+30  # makes sense
+>>> len(list(t))
+0   # ??? why is that ???
+# cuz `t` is an iterator, so we already used up all of the stuff in `t`
+```
+
+### `all` / `any`
+
+`all(s: iterable) -> bool`:
+- return `True` if all values in `s` evaluate to `True`
+- returns as soon as a `False` value is reached
+
+```python
+>>> all([True, True, True])
+True
+>>> all([[1], [1, 2], [1, 2, 3]])
+True
+>>> all([[], [1], [1, 2, 3]])
+False
+```
+
+`any(s: iterable) -> bool`:
+- return `True` if at least one value in `s` evaluates to `True`
+- returns as soon as a `True` value is reached
+
+```python
+>>> any([[], [1], [1, 2, 3]])
+True
+```
+
+example 1:
+```python
+def is_leafy(t) -> bool:
+    """return `True` if all of t's branches are leaves"""
+    return ___([_______________________________])
+```
+
+```python
+    return all([is_leaf(b) for b in branches(t)])
+```
+
+<br />
+
+example 2:
+```python
+>>> x = all(map(print, range(-3, 3)))
+-3
+False
+```
+
+Why:
+- `print(-3)` returns `None` after displaying `-3`
+- `None` is a false value
+- the `map` iterator never needs to advances beyond `-3`
+
+<br />
+
+### `min` practice
+
+```python
+w = {...}   # a dict with unique keys and values
+m = {v: k for k, v in w.items()}
+```
+
+These three expressions evaluates to...
+
+1. The key that has the smallest value in `w`:
+```python
+min(w.keys(), key = lambda k: w[k])
+```
+
+2. The value that has the smallest key in `w`:
+```python
+min(w.values(), key = lambda v: w[v])
+```
+
+3. The smallest absolute difference between a key and its value:
+```python
+min(map(lambda k: abs(k - w[k]), w.keys()))
+```
 
 <br />
 <br />
@@ -972,4 +1184,8 @@ Thank you.
 
 ## References
 
-[1] J. DeNero, D. Klein, P. Abbeel, "2.3 Sequences," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/23-sequences.html. Accessed: Oct. 3rd, 2025. (Originally published 2016)
+[1] J. DeNero, D. Klein, P. Abbeel, "2.3 Sequences," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/23-sequences.html. Accessed: Oct. 7rd, 2025. (Originally published 2016)
+
+[2] J. DeNero, D. Klein, P. Abbeel, "2.4 Mutable Data," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/24-mutable-data.html. Accessed: Oct. 7rd, 2025. (Originally published 2016)
+
+[3] J. DeNero, D. Klein, P. Abbeel, "4.2 Implicit Sequences," in *Composing Programs*. [Online]. Available: https://www.composingprograms.com/pages/42-implicit-sequences.html. Accessed: Oct. 8rd, 2025. (Originally published 2016)
