@@ -958,7 +958,7 @@ min(w.keys(), key = lambda k: w[k])
 
 2. The value that has the smallest key in `w`:
 ```python
-min(w.values(), key = lambda v: w[v])
+min(w.values(), key = lambda v: m[v])
 ```
 
 3. The smallest absolute difference between a key and its value:
