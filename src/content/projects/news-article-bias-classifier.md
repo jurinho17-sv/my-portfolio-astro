@@ -11,7 +11,7 @@ draft: false
 
 # News Article Political Bias Classifier (NLP Project)
 
-A NLP system that processes 24,500+ news articles to automatically detect political bias (Left/Right) using fine-tuned RoBERTa transformers, achieving 69.7% classification accuracy.
+A NLP system that processes 24,500+ news articles to automatically detect political bias (Left/Right) using fine-tuned [RoBERTa transformers](https://huggingface.co/FacebookAI/roberta-base), achieving 69.7% classification accuracy.
 
 - [GitHub Repository](https://github.com/jurinho17-sv/news-article-bias-classifier)
 
@@ -25,12 +25,12 @@ This project was developed as part of UC Berkeley's DATA 198 course with the goa
 - **Large-Scale Processing**: Handles 24,500+ articles spanning 13 years (2012-2025)
 - **High Accuracy**: Achieves 69.7% classification accuracy (19.7pp above baseline)
 - **Topic Analysis**: Performs best on Coronavirus coverage (73.8% accuracy)
-- **Production-Ready**: 99.5% data quality with comprehensive validation checks
+- **Quality Assurance**: 99.5% data quality validation across all pipeline stages
 
 ## Technical Implementation
 
 ### Data Pipeline Architecture
-Built a scalable, automated pipeline with 5 distinct stages:
+Built an automated pipeline with 5 distinct stages:
 
 ```python
 # Pipeline flow
@@ -65,7 +65,7 @@ def validate_article(article):
 ```
 
 ### Model Architecture
-Fine-tuned RoBERTa-base with custom classification head:
+Fine-tuned [RoBERTa-base](https://huggingface.co/FacebookAI/roberta-base) with custom classification head:
 
 ```python
 class BiasClassifier(nn.Module):
@@ -91,16 +91,16 @@ class BiasClassifier(nn.Module):
 ## Challenges and Solutions
 
 ### Challenge 1: Data Format Complexity
-**Problem**: Original dataset stored 3 articles per row (wide format), making analysis difficult.
-**Solution**: Engineered ETL workflow to transform 8,478 rows into 24,505 normalized articles, enabling standard ML processing and increasing data usability by 290%.
+- **Problem**: Original dataset stored 3 articles per row (wide format), making analysis difficult.
+- **Solution**: Engineered ETL workflow to transform 8,478 rows into 24,505 normalized articles, enabling standard ML processing and increasing data usability by 290%.
 
 ### Challenge 2: Data Quality at Scale
-**Problem**: Web-scraped articles contained HTML artifacts, duplicates, and inconsistent formatting.
-**Solution**: Built 5-stage validation pipeline with automated cleaning, achieving 99.5% data quality. Removed 2,147 duplicates and standardized text format.
+- **Problem**: Web-scraped articles contained HTML artifacts, duplicates, and inconsistent formatting.
+- **Solution**: Built 5-stage validation pipeline with automated cleaning, achieving 99.5% data quality. Removed 2,147 duplicates and standardized text format.
 
 ### Challenge 3: Class Imbalance
-**Problem**: Initial concern about uneven Left/Center/Right distribution affecting model performance.
-**Solution**: Analysis revealed nearly balanced distribution (34.4% / 31.4% / 34.2%). Excluded Center articles for clearer binary classification, resulting in 69.7% accuracy.
+- **Problem**: Initial concern about uneven Left/Center/Right distribution affecting model performance.
+- **Solution**: Analysis revealed nearly balanced distribution (34.4% / 31.4% / 34.2%). Excluded Center articles for clearer binary classification, resulting in 69.7% accuracy.
 
 ## Technologies Used
 
@@ -109,7 +109,7 @@ class BiasClassifier(nn.Module):
 - **Machine Learning**: PyTorch, Transformers (HuggingFace), Scikit-learn
 - **NLP**: RoBERTa-base (pretrained on 160GB text corpus)
 - **Visualization**: Matplotlib, Seaborn
-- **Development**: Jupyter Notebook, Google Colab (GPU), Python 3.9+
+- **Development**: Google Colab (GPU), Python 3.10+
 
 ## Key Learnings
 
@@ -191,9 +191,9 @@ flowchart LR
 
 ---
 
-**Course**: DATA 198 (Fall 2025) - Data Science Society @ UC Berkeley
-**Team Size**: 5 members (Data Pipeline & Preprocessing Lead)  
-**Duration**: 3 months (Sep 15th - Dec 9th, 2025)
+- **Course**: DATA 198 (Fall 2025) - Data Science Society @ UC Berkeley
+- **Team Size**: 5 members (Data Pipeline & Preprocessing Lead)
+- **Duration**: 3 months (Sep - Dec 2025)
 
 ---
 
