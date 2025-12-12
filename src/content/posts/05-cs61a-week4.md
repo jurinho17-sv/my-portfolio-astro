@@ -745,7 +745,7 @@ Know how to:
 
 Okay, this is it for Week4!
 
-It's 2:30AM now already.
+It's 2 : 30 AM now already.
 
 I'm going to get some sleep 😴
 

@@ -11,13 +11,26 @@ draft: false
 
 # News Article Political Bias Classifier (NLP Project)
 
-A NLP system that processes 24,500+ news articles to automatically detect political bias (Left/Right) using fine-tuned [RoBERTa transformers](https://huggingface.co/FacebookAI/roberta-base), achieving 69.7% classification accuracy.
+**End-to-end NLP pipeline** that processes **24,500+ news articles** to automatically detect political bias (Left/Right) using fine-tuned [RoBERTa transformers](https://huggingface.co/FacebookAI/roberta-base), achieving **69.7% classification accuracy**.
 
 - [GitHub Repository](https://github.com/jurinho17-sv/news-article-bias-classifier)
 
+## Objectives
+
+This project aims to:
+
+1. **Detect political bias in news articles**: Build an automated NLP system to classify news articles as Left-leaning or Right-leaning with high accuracy
+
+2. **Uncover hidden biases**: Help readers identify whether specific news sources or authors consistently lean toward one political side
+
+3. **Promote media literacy**: Provide an objective, data-driven tool for understanding the political slant of internet news sources
+
 ## Overview
 
-This project was developed as part of UC Berkeley's DATA 198 course with the goal of creating an automated tool to identify political bias in news coverage. With media polarization becoming increasingly prevalent, we wanted to build a data-driven system that could objectively analyze news articles and help readers understand potential editorial slant.
+This project was developed as a final project of UC Berkeley's DATA 198 (Fall 2025) course to address a critical challenge in modern media: identifying political bias in news coverage. With media polarization at an all-time high, we built an automated **NLP** system that processes **24,500+ articles** to objectively detect Left vs Right editorial slant, achieving **69.7%** classification accuracy—**19.7pp above random guessing**.
+
+Our goal was to help readers understand the political orientation of their 
+news sources through data, not opinion.
 
 ## Key Features
 
@@ -209,4 +222,4 @@ I'll be back with a new one 😁
 
 Merry Christmas 🎄 :)
 
-Dec 10 2025, 1:43 AM in my dorm.
+Dec 10, 2025 at 1 : 43 AM in my dorm.
