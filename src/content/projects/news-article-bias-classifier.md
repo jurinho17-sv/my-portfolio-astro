@@ -2,6 +2,8 @@
 title: "News Article Political Bias Classifier (NLP Project)"
 description: "End-to-end NLP data pipeline for detecting political bias in news articles using transformer-based deep learning"
 technologies: ["PyTorch", "Transformers", "RoBERTa", "Pandas", "NewsAPI", "Trafilatura", "Scikit-learn", "Python"]
+startDate: 2025-09-04
+endDate: 2025-12-16
 githubUrl: "https://github.com/jurinho17-sv/news-article-bias-classifier"
 featured: true
 draft: false

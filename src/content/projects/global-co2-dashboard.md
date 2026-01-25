@@ -2,6 +2,8 @@
 title: "Global CO2 Emissions Dashboard"
 description: "Interactive Streamlit Dashboard exploring 64 years of global CO2 emissions data with volume and growth analysis"
 technologies: ["Python", "Streamlit", "Pandas", "Plotly", "World Bank API", "Git"]
+startDate: 2025-01-11
+endDate: 2026-01-24
 githubUrl: "https://github.com/jurinho17-sv/global-co2-insight"
 liveUrl: "https://global-co2-insight-by-ju-ho-kim.streamlit.app"
 featured: true
