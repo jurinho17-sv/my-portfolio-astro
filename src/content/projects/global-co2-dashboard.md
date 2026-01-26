@@ -18,6 +18,7 @@ draft: false
 
 - [Live Demo](https://global-co2-insight-by-ju-ho-kim.streamlit.app)
 - [GitHub Repository](https://github.com/jurinho17-sv/global-co2-insight)
+- [EDA Report (Jupyter Notebook)](https://github.com/jurinho17-sv/global-co2-insight/blob/main/notebooks/01_data_eda.ipynb)
 
 ![Dashboard Screenshot](./images_projects/global-co2-dashboard/dashboard-preview.png)
 
