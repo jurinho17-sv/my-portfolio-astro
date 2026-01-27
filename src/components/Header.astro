@@ -54,7 +54,15 @@ const SubtitleTag = isPost ? 'div' : 'h2'
       ]}
       aria-hidden={isPost}
     >
-      {headerSubtitle}
+      {Array.isArray(headerSubtitle) ? (
+        <div class="flex flex-col gap-2">
+          {headerSubtitle.map((line: string) => (
+            <div>{line}</div>
+          ))}
+        </div>
+      ) : (
+        headerSubtitle
+      )}
     </SubtitleTag>
   )}
 </header>

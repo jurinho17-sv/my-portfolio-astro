@@ -5,7 +5,7 @@ type Exclude<T, U> = T extends U ? never : T
 export interface ThemeConfig {
   site: {
     title: string
-    subtitle: string
+    subtitle: string | string[]
     description: string
     i18nTitle: boolean
     author: string

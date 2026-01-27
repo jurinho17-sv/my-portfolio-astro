@@ -6,9 +6,12 @@ export const themeConfig: ThemeConfig = {
     // site title
     title: 'Ju Ho Kim',
     // site subtitle
-    subtitle: 'CDSS, Statistics @ UC Berkeley',
+    subtitle: [
+      'CDSS, Statistics @ UC Berkeley',
+      'DS Undergrad Researcher @ LBNL',
+    ],
     // site description
-    description: 'CDSS, Statistics @ UC Berkeley',
+    description: 'CDSS, Statistics @ UC Berkeley. Data Science Undergraduate Researcher @ Lawrence Berkeley National Laboratory',
     // use i18n title/subtitle/description from src/i18n/ui.ts instead of static ones above
     i18nTitle: false, // true, false
     // author name
