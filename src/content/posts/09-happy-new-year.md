@@ -11,11 +11,11 @@ pin: 0
 
 I just got back to Berkeley after winter break.
 
-I was only out of my dorm for 17 days, but somehow managed to hop across three cities with my friends. We went to Vancouver, then Hokkaido, and lastly Gangwon-do back home in Korea 🇰🇷.
+I was only out of my dorm for 17 days, but somehow managed to hop across three cities with my friends. I went to Vancouver, then Hokkaido, and lastly Gangwon-do back home in Korea 🇰🇷.
 
 Honestly, I’ve never traveled to this many places in such a short amount of time in my entire life.
 
-![With my friends on December 22nd, 2025](./_images/09-happy-new-year/whistler.jpg)
+![With my friends in Whistler, 🇨🇦 (Dec 22nd, 2025)](./_images/09-happy-new-year/whistler.jpg)
 
 <br>
 
