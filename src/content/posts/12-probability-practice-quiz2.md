@@ -11,9 +11,9 @@ pin: 0
 
 ## Problem 1
 
-**(Probability bounds)** In a particular time period, the price of 1 pound of Vibranium is $\\$50$ on average, with a standard deviation of $\\$10$.
+**(Probability bounds)** In a particular time period, the price of 1 pound of Vibranium is \$50 on average, with a standard deviation of \$10.
 
-**(a) Using Chebyshev's Inequality, derive an upper bound on the probability that a pound of Vibranium costs greater than or equal to $\\$80$.**
+**(a) Using Chebyshev's Inequality, derive an upper bound on the probability that a pound of Vibranium costs greater than or equal to \$80.**
 
 Let $X$ = price. Given $E(X) = 50$, $\text{SD}(X) = 10$.
 
@@ -27,7 +27,7 @@ $$
 P(|X - 50| \geq 3 \cdot 10) \leq \frac{1}{3^2} = \boxed{\frac{1}{9}}
 $$
 
-**(b) What would the mean of a pound of Vibranium need to be (fixing standard deviation at $\\$10$) in order to upper bound this probability by $\frac{1}{11}$?**
+**(b) What would the mean of a pound of Vibranium need to be (fixing standard deviation at \$10) in order to upper bound this probability by $\frac{1}{11}$?**
 
 Let $\mu = E(X)$, $\sigma = 10$. Assume $\mu \leq 80$. Then:
 
