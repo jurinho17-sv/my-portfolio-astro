@@ -1,6 +1,6 @@
 ---
 title: "Random Variables, Expectation, Variance, Normal Approximation, Discrete Distributions, Poisson, Symmetry"
-publishDate: 2026-02-25
+publishDate: 2026-02-24
 description: "Probability (2)"
 tags: ["Random Variables", "Expectation", "Variance", "Normal Approximation", "Geometric", "Poisson", "Hypergeometric", "Symmetry"]
 draft: false
