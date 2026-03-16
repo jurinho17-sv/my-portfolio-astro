@@ -8,6 +8,7 @@ export const themeConfig: ThemeConfig = {
     // site subtitle
     subtitle: [
       'CDSS, Statistics @ UC Berkeley',
+      '',
       'DS Undergrad Researcher @ LBNL',
     ],
     // site description

@@ -1,7 +1,7 @@
 ---
 title: "Probability Foundations: From Counting to Continuous Distributions"
 publishDate: 2026-03-16
-description: "Probability (3): Midterm Comprehensive Reference"
+description: "Probability (3)"
 tags: ["Probability", "Chebyshev", "Markov", "Indicator Method", "Poisson Process", "Gamma", "Exponential", "Normal Approximation", "Hypergeometric", "Bayes"]
 draft: false
 pin: 0
@@ -296,9 +296,7 @@ Conversely, in a Poisson process with rate $\lambda$ where each arrival is indep
 
 ---
 
-## Exam Methodology
-
-### Pattern Recognition Table
+## Pattern Recognition Table
 
 | Signal | Technique |
 | :--- | :--- |
@@ -314,14 +312,6 @@ Conversely, in a Poisson process with rate $\lambda$ where each arrival is indep
 | $g(x)$ with factorial-like denominator, $X \sim \text{Pois}$ | LOTUS $\to$ combine denominators $\to$ Poisson tail |
 | $n$ large, $p$ moderate | Normal approximation + continuity correction |
 | $n$ large, $p$ small, $np$ moderate | Poisson approximation |
-
-### Formula Sheet Usage Guide
-
-**Gamma CDF row** $=$ Poisson upper tail. For Poisson process problems asking "$P(T_r \leq t)$", read the Gamma CDF directly from the table.
-
-**Normal CDF row.** Final answers in approximation problems should be expressed as $\Phi(\cdot)$. Read the standardization formula $\Phi((x - \mu)/\sigma)$ from the table.
-
-**Exponential survival** $= e^{-\lambda t}$. This single expression handles: $P(X > t)$, minimum of independent exponentials, and $P(N(t) = 0)$ in a Poisson process.
 
 ---
 
