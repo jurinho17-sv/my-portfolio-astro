@@ -9,7 +9,7 @@ export const themeConfig: ThemeConfig = {
     subtitle: [
       'CDSS, Statistics @ UC Berkeley',
       '',
-      'DS Undergrad Researcher @ LBNL',
+      'Data Engineer Intern @ LBNL',
     ],
     // site description
     description: 'CDSS, Statistics @ UC Berkeley. Data Science Undergraduate Researcher @ Lawrence Berkeley National Laboratory',
