@@ -1,7 +1,7 @@
 ---
 title: "News Article Political Bias Classifier (NLP Project)"
 description: "End-to-end NLP data pipeline for detecting political bias in news articles using transformer-based deep learning"
-technologies: ["PyTorch", "Transformers", "RoBERTa", "Pandas", "NewsAPI", "Trafilatura", "Scikit-learn", "Python"]
+technologies: ["PyTorch", "Transformers", "DeBERTa", "W&B", "Gradio", "Pandas", "Scikit-learn", "Python"]
 startDate: 2025-09-04
 endDate: 2025-12-16
 githubUrl: "https://github.com/jurinho17-sv/news-article-bias-classifier"
@@ -11,9 +11,11 @@ draft: false
 
 # News Article Political Bias Classifier (NLP Project)
 
-**End-to-end NLP pipeline** that processes **24,500+ news articles** to automatically detect political bias (Left/Right) using fine-tuned [RoBERTa transformers](https://huggingface.co/FacebookAI/roberta-base), achieving **69.7% classification accuracy**.
+End-to-end NLP pipeline that processes **51,000+ news articles** to automatically detect political bias (Left / Center / Right) using fine-tuned [DeBERTa-v3-base](https://huggingface.co/microsoft/deberta-v3-base), achieving **83.0% macro-F1** on a temporally held-out test set.
 
 - [GitHub Repository](https://github.com/jurinho17-sv/news-article-bias-classifier)
+- [Live Demo on HuggingFace Spaces](https://huggingface.co/spaces/jurinho17-sv/news-article-bias-classifier)
+- [Model on HuggingFace Hub](https://huggingface.co/jurinho17-sv/news-article-bias-classifier)
 
 ## Objectives
 
@@ -27,18 +29,18 @@ This project aims to:
 
 ## Overview
 
-This project was developed as a final project of UC Berkeley's DATA 198 (Fall 2025) course to address a critical challenge in modern media: identifying political bias in news coverage. With media polarization at an all-time high, we built an automated **NLP** system that processes **24,500+ articles** to objectively detect Left vs Right editorial slant, achieving **69.7%** classification accuracy—**19.7pp above random guessing**.
+This project was developed as a final project of UC Berkeley's DATA 198 (Fall 2025) course to address a critical challenge in modern media: identifying political bias in news coverage. With media polarization at an all-time high, we built an automated **NLP** system that processes **51,000+ articles** (Baly et al. EMNLP 2020 + Qbias WebSci 2023) to objectively detect Left / Center / Right editorial slant, achieving **83.0% macro-F1** on a temporally held-out 2020 test set. To prevent data leakage, we enforced strict temporal splits: training data covers articles published through 2018, with validation on 2019 and testing on 2020 articles.
 
-Our goal was to help readers understand the political orientation of their 
+Our goal was to help readers understand the political orientation of their
 news sources through data, not opinion.
 
 ## Key Features
 
 - **Automated Data Pipeline**: End-to-end ETL workflow from raw HTML to model-ready features
-- **Large-Scale Processing**: Handles 24,500+ articles spanning 13 years (2012-2025)
-- **High Accuracy**: Achieves 69.7% classification accuracy (19.7pp above baseline)
-- **Topic Analysis**: Performs best on Coronavirus coverage (73.8% accuracy)
-- **Quality Assurance**: 99.5% data quality validation across all pipeline stages
+- **Large-Scale Processing**: Handles 51,000+ articles spanning multiple years
+- **High Accuracy**: Achieves 83.0% macro-F1 on temporally held-out 2020 test set
+- **3-Class Classification**: Left / Center / Right bias detection
+- **Quality Assurance**: Strict temporal splits to prevent data leakage
 
 ## Technical Implementation
 
@@ -78,28 +80,25 @@ def validate_article(article):
 ```
 
 ### Model Architecture
-Fine-tuned [RoBERTa-base](https://huggingface.co/FacebookAI/roberta-base) with custom classification head:
+Fine-tuned [DeBERTa-v3-base](https://huggingface.co/microsoft/deberta-v3-base) (86M parameters) using HuggingFace Trainer with weighted cross-entropy loss to handle class imbalance:
 
 ```python
-class BiasClassifier(nn.Module):
-    def __init__(self, roberta_model):
-        super().__init__()
-        self.roberta = roberta_model
-        self.classifier = nn.Sequential(
-            nn.Linear(768, 256),
-            nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(256, 128),
-            nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(128, 2)  # Binary: Left vs Right
-        )
-    
-    def forward(self, input_ids, attention_mask):
-        outputs = self.roberta(input_ids, attention_mask)
-        embeddings = outputs.last_hidden_state[:, 0, :]  # CLS token
-        return self.classifier(embeddings)
+# Model setup
+model = AutoModelForSequenceClassification.from_pretrained(
+    "microsoft/deberta-v3-base",
+    num_labels=3  # Left, Center, Right
+)
+
+# Input format: title [SEP] article body (max 512 tokens)
+inputs = tokenizer(
+    f"{title} [SEP] {body}",
+    max_length=512,
+    truncation=True,
+    padding=True
+)
 ```
+
+Training config: lr=2e-5, batch_size=32 (×2 grad accum), 5 epochs, fp16, NVIDIA L40 48GB.
 
 ## Challenges and Solutions
 
@@ -111,18 +110,19 @@ class BiasClassifier(nn.Module):
 - **Problem**: Web-scraped articles contained HTML artifacts, duplicates, and inconsistent formatting.
 - **Solution**: Built 5-stage validation pipeline with automated cleaning, achieving 99.5% data quality. Removed 2,147 duplicates and standardized text format.
 
-### Challenge 3: Class Imbalance
-- **Problem**: Initial concern about uneven Left/Center/Right distribution affecting model performance.
-- **Solution**: Analysis revealed nearly balanced distribution (34.4% / 31.4% / 34.2%). Excluded Center articles for clearer binary classification, resulting in 69.7% accuracy.
+### Challenge 3: Temporal Data Leakage
+- **Problem**: Original project used random train/test splits, allowing future articles to appear in training data and inflating accuracy.
+- **Solution**: Implemented strict temporal splits (train ≤2018 / val 2019 / test 2020), replacing the inflated 69.7% figure with an honest 83.0% macro-F1 — a more rigorous and defensible evaluation.
 
 ## Technologies Used
 
-- **Data Collection**: NewsAPI, Trafilatura, Requests, BeautifulSoup
-- **Data Processing**: Pandas, NumPy, Regex
+- **Data Collection**: Baly et al. (EMNLP 2020), Qbias (WebSci 2023)
+- **Data Processing**: Pandas, NumPy
 - **Machine Learning**: PyTorch, Transformers (HuggingFace), Scikit-learn
-- **NLP**: RoBERTa-base (pretrained on 160GB text corpus)
-- **Visualization**: Matplotlib, Seaborn
-- **Development**: Google Colab (GPU), Python 3.10+
+- **Experiment Tracking**: Weights & Biases (W&B)
+- **NLP**: DeBERTa-v3-base (Microsoft)
+- **Deployment**: Gradio, HuggingFace Spaces
+- **Training Hardware**: NVIDIA L40 48GB (UC Berkeley DataHub)
 
 ## Key Learnings
 
@@ -133,68 +133,58 @@ class BiasClassifier(nn.Module):
 
 ## Performance Metrics
 
-### Overall Results
-- **Accuracy**: 69.7% (baseline: 50%)
-- **Dataset Size**: 24,505 articles
-- **Data Quality**: 99.5% validation pass rate
-- **Processing Speed**: 24K+ articles processed in <2 hours
+### Results
+| Split | Articles | Accuracy | Macro-F1 |
+|-------|----------|----------|----------|
+| Val (2019) | 4,621 | 91.1% | 91.1% |
+| **Test (2020)** | **3,946** | **82.9%** | **83.0%** |
 
-### Topic-Specific Performance
-| Topic | Accuracy | Sample Size |
-|-------|----------|-------------|
-| Coronavirus | **73.8%** | 1,242 articles |
-| Politics | 67.0% | 2,232 articles |
-| World | 65.8% | 1,161 articles |
-| Economy & Jobs | 65.3% | 1,386 articles |
-| Elections | 63.3% | 1,845 articles |
+Per-class F1 on test set: Left 82.3% · Center 81.8% · Right 85.0%
 
 ## Future Enhancements
 
-- **Three-Class Classification**: Include Center articles for more nuanced bias detection
-- **Attention Visualization**: Add interpretability features to show which words/phrases indicate bias
-- **Real-Time API**: Deploy model as REST API for live article classification
-- **Browser Extension**: Create Chrome extension for instant bias detection while reading news
-- **Temporal Analysis**: Track how news sources' bias evolves over time
+- **Ablation study**: Baly-only vs. Baly+Qbias — quantify how much the additional 2023 data helps
+- **PRISM comparison**: Benchmark against ACL 2025 SOTA on the same test set
+- **DeBERTa-v3-large**: Scale up with more compute for potential +2-3% gain
+- **Cross-source generalization**: Train on outlets A, B → test on outlet C
 
 ## Project Structure
 
 ```
 news-article-bias-classifier/
-├── notebooks/                    # Sequential workflow (7 notebooks)
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_web_scraping.ipynb
-│   ├── 03_data_cleaning.ipynb
-│   ├── 04_data_transformation.ipynb
-│   ├── 05_feature_extraction.ipynb
-│   ├── 06_model_experiments.ipynb
-│   └── 07_final_model.ipynb
-├── data/
-│   ├── raw/                      # Original Kaggle dataset
-│   └── processed/                # Cleaned, transformed data
-├── results/
-│   ├── plots/                    # Accuracy curves, confusion matrices
-│   └── metrics/                  # Performance logs
+├── configs/config.yaml           # All hyperparameters (single source of truth)
+├── scripts/
+│   ├── load_datasets.py          # Baly + Qbias loader
+│   ├── make_splits.py            # Temporal train/val/test splits
+│   ├── generate_training_data.py # Training data preparation
+│   ├── train.py                  # DeBERTa fine-tuning with W&B
+│   ├── evaluate.py               # Test set evaluation
+│   └── push_to_hub.py            # HuggingFace Hub upload
+├── demo/
+│   ├── app.py                    # Gradio demo app
+│   └── requirements.txt          # Spaces dependencies
+├── notebooks/                    # Original exploration notebooks (legacy)
+├── MODEL_CARD.md                 # HuggingFace model card
 ├── README.md                     # Full technical documentation
 └── requirements.txt              # Python dependencies
 ```
 
 ## Try It Out
 
+- **Live Demo**: [huggingface.co/spaces/jurinho17-sv/news-article-bias-classifier](https://huggingface.co/spaces/jurinho17-sv/news-article-bias-classifier)
+- **Model on Hub**: [huggingface.co/jurinho17-sv/news-article-bias-classifier](https://huggingface.co/jurinho17-sv/news-article-bias-classifier)
 - **GitHub Repository**: [github.com/jurinho17-sv/news-article-bias-classifier](https://github.com/jurinho17-sv/news-article-bias-classifier)
-- **Dataset Source**: [Kaggle: News Dataset for News Bias Analysis](https://www.kaggle.com/datasets/articoder/news-dataset-for-news-bias-analysis)
-- **GitHub Documentation**: [README](https://github.com/jurinho17-sv/news-article-bias-classifier)
 
 ## Visual Results
 
 ### Data Pipeline Flow
 ```mermaid
 flowchart LR
-    A[Raw Data<br/>8,478 rows] --> B[Web Scraping]
-    B --> C[Text Cleaning]
-    C --> D[ETL Transform<br/>24,505 articles]
-    D --> E[RoBERTa Embeddings<br/>768-dim]
-    E --> F[Neural Network]
-    F --> G[69.7% Accuracy]
+    A[Baly et al. 2020<br/>+ Qbias 2023<br/>51K articles] --> B[Temporal Split<br/>train/val/test]
+    B --> C[DeBERTa-v3-base<br/>Fine-tuning]
+    C --> D[W&B Tracking<br/>5 runs]
+    D --> E[83.0% Macro-F1<br/>Temporal Test Set]
+    E --> F[HuggingFace<br/>Spaces Demo]
 ```
 
 ### Model Performance
